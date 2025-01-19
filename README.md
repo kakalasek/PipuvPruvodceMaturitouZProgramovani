@@ -1,6 +1,12 @@
 Úvod
 ====
 
+Suč, já jsem nějakej Pepa. Tento repositář by měl sloužit k tomu, aby vám pomohl při študování na maturitu ze sítí. Budu se tu snažit probrat vše, co byste snad mohli potřebovat a především jednotlivé maturitní otázky. Často asi i více do podrobna, než opravdu budete potřebovat. Nicméně je dobré si udělat nějaký obrázek. Maturitní otázky zde rozebrané jsou platné ke školnímu roku 2024/25. Nicméně témata zde probraná budou rozhodně platná ještě dlouho, kdyby náhodou tyto texty našel někdo později.                   
+Pokud by jste snad v nějakém textu našli logickou či faktickou chybu, určitě vás poprosím mi na to udělat Github Issue. Negarantuji, že chybu vyřeším, nicméně tam bude informace o chybě alespoň pro ostatní. Máte-li na mne kontakt, určitě mě můžete i kontaktovat v případě, že byste měli dotaz navíc nebo vám něco nešlo do hlavy. Bude-li to v mých silách, rád vám pomohu.              
+Budu se zde snažit uvádět názorné příklady kódu, kde to jen půjde. Budu se je také snažit dělat ve více jazycích. Pokud by někoho zajímalo, jaké jazyky zde budou využity. Určitě jazyk C, případně C++, Java a Python. To jsou také jazyky dostupné na školním počítači v tuto chvíli. Bude-li to žádoucí, mohu uvést přiklad v některém jiném jazyce. PS: C# zde nehledejte, nebude zde jediná řádka v tomto jazyce. Na kódy, které zde uveřejňuji, neuvaluji žádná autorská práva, můžete je využívat, k čemu jen chcete.                
+Dále zde ke každému tématu uveřejňuji materiály, ze kterých jsem čerpal, či něco navíc, kdyby pro vás náhodou můj výklad byl nesrozumitelný.                
+To by bylo k úvodu vše, přeji veselé studium a hodně štěstí u maturity. Nebojte, za chvíli budete z toho ústavu pryč, stačí to jenom udělat.
+
 Pozn
 ---
 
