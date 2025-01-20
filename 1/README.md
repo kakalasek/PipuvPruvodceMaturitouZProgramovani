@@ -18,6 +18,22 @@ Dobrá, teď již víme, že každá buňka v paměti má svou adresu. Co je jed
 Materiály
 ---
 
+Chris Kanich - Introduction to Processes in Linux - https://iv.ggtyler.dev/watch?v=WkuKhLYtUHw          
+MIT OpenCourseWare - Basics of Virtual Memory - https://invidious.perennialte.ch/watch?v=8yO2FBBfaB0            
+Tech With Nikola - But, what is Virtual Memory - https://invidious.nerdvpn.de/watch?v=A9WLYbE0p-I               
 The Linux Foundation - Introduction to Memory Management in Linux - https://invidious.perennialte.ch/watch?v=7aONIVSXiJ8            
-Computerphile - What's virtual memory? - https://invidious.jing.rocks/watch?v=5lFnKYCZT5o               
-Coding With John - Java's Garbage Collection Explained - https://inv.nadeko.net/watch?v=Mlbyft_MFYM
+Computerphile - What's virtual memory? - https://invidious.jing.rocks/watch?v=5lFnKYCZT5o     
+
+Coding With John - Java's Garbage Collection Explained - https://inv.nadeko.net/watch?v=Mlbyft_MFYM                 
+Computerphile - Garbage Collection (Mark & Sweep) - https://invidious.perennialte.ch/watch?v=c32zXYAK7CI            
+
+Alex Hyett - Stack vs Heap Memory - https://iv.ggtyler.dev/watch?v=5OJRqkYbK-4          
+Mycodeschool - Pointers and dynamic memory - https://iv.ggtyler.dev/watch?v=_8-ht2AKyH4             
+
+Bro Code - C pointers explained - https://iv.ggtyler.dev/watch?v=DplxIq0mc_Y            
+Low Level - You will never ask about pointers again after watching this video - https://iv.ggtyler.dev/watch?v=2ybLD6_2gKM          
+
+Coding with John - Java is Always pass by value. Here's why - https://iv.ggtyler.dev/watch?v=-5NC5_sI-vQ            
+theteachr - Demystifiyng Pointers - Pass by Value vs. Pass by Reference - https://iv.ggtyler.dev/watch?v=qz_iz_PLorc            
+Bro Code - C++ pass by value vs pass by reference - https://iv.ggtyler.dev/watch?v=ao0I1ViVV6U                  
+Caleb Curry - C++ Programming Tutorial 67 Pass By Reference and Pass By Value - https://iv.ggtyler.dev/watch?v=FXzpFn8LJUI
