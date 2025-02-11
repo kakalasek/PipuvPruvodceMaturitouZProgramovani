@@ -34,7 +34,7 @@ Zásobník může mít omezenou velikost. Zavoláme-li tolik funkcí/metod, že 
 Základní datové typy, jsou-li deklarované jako lokální proměnné, se zpravidla ukládají právě na zásobník. Konkrétně třeba int, char, long, bool, ... Hlavně tady prosím vás nezmiňujte string, to byste si pěkně zavařili.          
 Druhým místem, kde se mohou proměnné vytvořené za běhu programu nacházet, je heap, halda. Zklamu vás, s haldou jako datovou strukturou má pramálo společného. Je to takový sklad dat. Nachází se zde referenční datové typy. Co to znamená? Znamená to, že v zásobníku je uložena pouze reference na tento object. Ten samotný je uložen právě na haldě. Konkrétně si to ukážeme v kódu na konci.               
 Chceme-li něco uložit na haldu, musíme si to nejdříve alokovat. Operační systém nám předá ukazatel na místo, které jsme si takto zabrali a dále se o to nestará. To může být problém, pokud po sobě alokované místo patřičně neuklidíme, tedy nedealokujeme. To jest, neřekneme operačnímu systému, že toto místo je opět volné. Mohou tak vznikat různá přetečení paměti a můžeme mít spoustu nechtěných problémů. V moderních jazycích se nám o toto stará Garbage collector, o kterém si povíme záhy.            
-Na haldě se také např. nachází globální proměnné, které musí vidět více funkcí a částí programu, protože zde se k nim můžeme dostat odkudkoliv.             
+Globální proměnné se nachází na speciálním místě. Jejich velikost musí být známa při kompilaci.             
 
 ![Pass By Reference And Pass By Value](pass_by_reference_and_pass_by_value.gif)
 
@@ -43,7 +43,80 @@ Proč to tak je? Pointer je koncept, který známe z třeba z jazyka C. Pointer 
 
 ![Garbage Collection](garbage_collection.gif)
 
-Posledním tématem před ukázkami kódu, bude garbage collection. Je to velmi užitečná utilita implementovaná do moderních programovacích jazyků. Periodicky se spouští a čistí za nás haldu. Nemusíme se tedy starat o dealokaci objektů, dělá to za nás garbage collector. Pokud již v našem kódu nejsou na object na haldě žádné reference, tento objekt uklidí.
+Posledním tématem před ukázkami kódu, bude garbage collection. Je to velmi užitečná utilita implementovaná do moderních programovacích jazyků. Periodicky se spouští a čistí za nás haldu. Nemusíme se tedy starat o dealokaci objektů, dělá to za nás garbage collector. Pokud již v našem kódu nejsou na object na haldě žádné reference, tento objekt uklidí.            
+Existuj9 objekty, na které bude existovat reference po celou dobu běhu programu, nebo přinejmenším velmi dlouho. Takové objekty by bylo zbytečné kontrolovat při každém spuštění sběratele odpadu. Pokud tedy objekt přežije více sběrů, je kontrolován méně, protože garbage collector předpokládá, že tento objekt jen tak nezmizí. Jak tento mechanismus funguje konkrétně, to záleží na implementaci.      
+
+
+Ukázky kódu
+---
+
+**Jazyk C - Proměnné, ukazatele v paměti**
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+int global_variable = 25; // Bude vytvorena v datovem segmentu, je to globalni promenna
+
+int sum(int a, int b) // Obe promenne budou existovat pouze tak dlouho, nez funkce dobehne, jsou tedy lokalni a budou ulozeny na stacku
+{     
+    return a + b;
+}
+
+int main()
+{
+    int local_variable = 10; // Bude vytvoren na zasobniku, je to lokalni promenna
+    
+    int *p = malloc(sizeof(int)); // Pointer na int bude vytvoren na stacku, je to lokalni promenna.
+                                  // Malloc alokuje presne misto na jeden int na halde.
+    
+    *p = 30;    // Dereferencujeme pointer, int na halde bude nyni drzet hodnotu 30
+    
+    int sum_of_two_integers = sum(30, 20); // Zde se program zastavi, dokud nedobehne funkce sum(a,b)
+                                           // Na call stack pribyla nova metoda, takze je potreba ji vykonat jako dalsi -> je na vrchu call stacku
+    
+    printf("Globalni promenna: %d\n", global_variable);
+    printf("Lokalni promenna: %d\n", local_variable);
+    printf("Promenna na halde: %d\n", *p);
+    printf("Vysledek sumy: %d\n", sum_of_two_integers);
+
+    return 0;
+}
+```
+
+**Jazyk C++ - Pass-by-value vs Pass-by-reference**
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+void pass_by_value(int a)   // Jako parametr zde bude vstupovat pouze hodnota promenna 'a'. Nelze tedy hodnotu promenne uvnitr metody nijak zmenit
+{
+    a = 11;
+    cout << "This is 'a' inside pass_by_value: " << a << endl;
+}
+
+void pass_by_reference(int &a)  // Jako parametr zde vstupuje reference na promennou 'a'. Tu si muzete predstavit jako prosty pointer. Muzeme tedy smele menit hodnotu promenne
+{
+    a = 23;
+    cout << "This is 'a' inside pass_by_reference: " << a << endl;
+}
+
+int main()
+{
+    int a = 6;
+    
+    cout << "This is 'a' before pass_by_value: " << a << endl;
+    pass_by_value(a);   // Hodnota se po zavolani metody nezmeni
+    cout << "This is 'a' after pass_by_value: " << a << endl;
+    cout << "This is 'a' before pass_by_reference: " << a << endl;
+    pass_by_reference(a);   // Nyni se vsak hodnota jiz zmeni
+    cout << "This is 'a' after pass_by_reference: " << a << endl;
+
+    return 0;
+}
+```
 
 Materiály
 ---
