@@ -61,8 +61,24 @@ K čemu je to dobré? Můžeme tak odhadovat, jakou úlohu plní jednotlivé hra
 Druhým užitečným výstupem BFS je list nejkratších cest. Ten nám jednoduše říká, jak se nejkratší cestou dostat ke všem uzlům. Opět v závisloti na tom, co jsme zvolili jako uzel počáteční.         
 
 Druhý algoritmus je DFS (Depth First Search), čili prohledávání do hloubky. Trochu to zrychlíme, podívejte se na gif, tam je velmi pěkně vidět, jak tento algoritmus postupuje, já si alespoň ušetřím popisování.               
-DFS využívá ke svému fungování rekurzi. Otevře nějaký vrchol, začne rekurzivně prohledávat jeho následovníky.
+DFS využívá ke svému fungování rekurzi. Otevře nějaký vrchol, začne rekurzivně prohledávat jeho následovníky. Paměťová a časová složitost je podobně jako u BFS lineární. V rámci časové složitosti závisí na počtu uzlů a hran. U paměťové potřebuje dost na pomocná pole a zásobník rekurze. Ano, v postatě jen parafrázuji Průvodce, ale kdo z vás se do něj opravdu plánuje podívat? Myslel jsem si to.      
 
+![Types Of Edges](types_of_edges.png)
+
+Původně jsem se tomu chtěl vyhnout, ale vzhledem k tomu, že výsledkem algoritmu DFS je dvojice polí, díky kterým můžeme docela elegantně rozlišit typy jednotlivých hran, představíme si konkrétně, jak vypadají jednotlivé možnosti. V průběhu běhu algoritmu si zapisujeme, kdy jsme vrchol otevřeli a kdy jsme ho zavřeli. Když se pak podíváme na tyto dvě čísla, můžeme na základě jejich závisloti poznat, o jakou hranu se jedná.            
+Pro ty, kteří mají raději abstraktnější představy. Můžete si představit otevření vrcholu jako zapsání levé strany závorky. Zavření vrcholu naopak jako uzavření závorky. Na základě toho, jak jsou vůči sobě závorky postaveny, můžeme obdobně rozhodnout, o kterou z hran se jedná.            
+Algoritmus vždy vezme novou hrany, která vychází z aktuálního vrcholu. Vede-li tato hrana do nového vrcholu (tj. neobjeveného, fresh), nazýváme ji stromovou. Algoritmus pak postoupí dále do hloubky a novým aktuálním vrcholem se stane koncový vrchol této hrany. Algoritmus tedy takto vytvoří stromový graf s kořenem v našem počátečním vrcholu.  
+Pokud by algoritmus vzal novou hranu, jejíž koncový vrchol by byl ve stavu open, algoritmus tuto hranu přeskočí. Nazýváme ji zpětnou hranou. Vede ve stromu směrem nazpátek.        
+Dále může být vybraný vrchol další hrany ve stavu closed. Řekněme, že jsme si vrcholy označili čísly. Pokud vede tato hrana do vrcholy s vyšším číslem, než je to současné, jedná se o hranu tzv. dopřednou. Vede dál v téže větvi stromu. Pokud vede do vrcholu s nižším číslem, jedná se o hranu příčnou. Ta vede do vedlejší, již dříve opuštěné větvě stromu.           
+Pro maturitu by vám měla stačit jen přibližná představa, popř. znalost implementace a fungování algoritmu. Další na řadě jsou algoritmy pro nalezení nejkratší cesty.
+
+![Dijkstra](dijkstra.gif)
+
+TEXT HERE
+
+TEXT HERE
+
+![Bubble Sort](bubble_sort.gif)
 
 Ukázky kódu
 ---
@@ -72,7 +88,7 @@ Pozn.: Vysvětlení kódu bude zpravidla jen u jednoho z programovacích jazyků
 **Python - BFS**
 
 ```Python
-G = {1: [2,4], 2:[3,5], 3: [6], 4: [3], 5: [3,6], 6: [7], 7: []}    # Nas graf reprezentovan listem sousedu
+G = {1: [2,4], 2:[3,5], 3: [6], 4: [3], 5: [3,6], 6: [7], 7: []}    # Nas graf reprezentovan listem sousedu. Je to orientovany neoceneny graf
 D = dict()  # List vrstev
 P = dict()  # List nejkratsich cest
 not_found_vertices = [] # Nenalezene uzly
@@ -132,7 +148,8 @@ Martin Mareš a Tomáš Valla - Průvodce labyrintem algoritmů - https://pruvod
 
 Reducible - Introduction to Graph Theory: A computer science perspective - https://inv.nadeko.net/watch?v=LFKZLXVO-Dg     
 
-Reducible - Depth First Search (DFS) Explained - https://inv.nadeko.net/watch?v=PMMc4VsIacU         
+Reducible - Depth First Search (DFS) Explained - https://inv.nadeko.net/watch?v=PMMc4VsIacU
+Wikipedia - Prohledavani do hloubky - https://cs.wikipedia.org/wiki/Prohled%C3%A1v%C3%A1n%C3%AD_do_hloubky               
 Reducible - Breadth First Search (BFS) Explained - https://inv.nadeko.net/watch?v=xlVX7dXLS64&listen=false          
 Michael Sambol - Dijkstra's Algorithm in 3 minutes - https://inv.nadeko.net/watch?v=_lHSawdgXpI         
 Computerphile - A Star Search Algorithm - https://inv.nadeko.net/watch?v=ySN5Wnu88nE            
