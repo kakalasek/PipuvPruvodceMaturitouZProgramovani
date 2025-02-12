@@ -86,6 +86,8 @@ Poslední část otázky je nazvaná jako řazení. Chápu to tak, že se jedná
 Začneme třemi jednoduchými a intuitivními algoritmy. Jsou krátké, rychlé na implementaci a svou práci splní. Nicméně všechny mají jeden menší nešvar. Jejich časová složitost je O(n^2) o moc lepší výsledky z nich ve většině případů nevytřískáme. Pro větší soubory dat se tedy zpravidla nehodí.            
 Poslední věc, kterou se hodí poznamenat. Při řazení rozhodně nemusíme nutně pracovat s čísly. Můžeme klidně pracovat i s objekty, nic nám nebrání. Stačí si nastavit podmínky, na základě kterých můžeme objekty porovnat. Nicméně my to pro jednodušší pochopení budeme předpokládat, že třídíme čísla podle velikosti od nejmenšího po nejvetší.
 
+Dalším algoritmem pro nalezení nejkratší cesty je např. A*. Na tento algrotimus se podíváme v jiné otázce, protože má co dočinění s heuristikami, které se v této maturitní otázce neobjevují.
+
 ![Bubble Sort](bubble_sort.gif)
 
 Začneme nám dobře známým bublinkovým tříděním (Bubble Sort). Na gifu výše můžete vidět, jak asi funguje. Jednoduše procházíme pole a vždy koukáme na dva vedle sebe ležící prvky a pokud je ten napravo menší, prohodíme je. Takhle nám velká čísla "probublají" doprava. Neupravená verze algoritmu projde pole vždy opravdu n^2 krát. Můžeme ho malinko zrychlit tak, že po každém průchodu polem zkontroluje, zda již není sezařené a v takovém případě skončí.
@@ -162,9 +164,91 @@ print(P)
 ```
 
 **Python - DFS**
+
+```Python
+G = {1: [2,4], 2:[3,5], 3: [6], 4: [3], 5: [3,6], 6: [7], 7: []}    # Nas graf reprezentovan listem sousedu. Je to orientovany neoceneny graf
+_in = dict()    # Seznam doby otevreni vrcholu
+_out = dict()   # Seznam doby zavreni vrcholu
+not_found_vertices = [] # Seznam nenalezenych vrcholu
+open_vertices = []  # Seznam otevrenych vrcholu
+closed_vertices = []    # Seznam zavrenych vrcholu
+
+for v in G.keys():
+    not_found_vertices.append(v)    # Vsechny vrcholy jsou na zacatku oznaceny jako nenalezene
+    _in[v] = None   # Vsechny vrcholy maji nejdrive nedefinovanou dobu otevreni
+    _out[v] = None  # Vsechny vrcholy maji nejdrive nedefinovanou dobu uzavreni
+
+T = 0   # Promenna pro drzeni aktualni doby otevreni ci zavreni
+
+def dfs(v):
+    global T
+
+    # Otevreme vrchol v
+    not_found_vertices.remove(v)
+    open_vertices.append(v)
+
+    # Pridame cas otevreni vrcholu v
+    T = T + 1
+    _in[v] = T
+
+    # Projdeme vsechny nasledniky vrcholu v. Pro kazdy, ktery jeste nebyl nalezen, spustime rekurzivne funkci dfs
+    for w in G[v]:
+        if w in not_found_vertices:
+            dfs(w)
+
+    # Uzavreme vrchol v    
+    open_vertices.remove(v)
+    closed_vertices.append(v)
+
+    # Pridame cas uzavreni vrcholu v
+    T = T + 1
+    _out[v] = T
+
+dfs(1)   # Zavolame dfs, jako parametr zadame pocatecni vrchol
+
+# vypiseme vysledky
+print(_in)
+print(_out)
+
+# Tato implementace samozrejmne neni idealni, protoze funkce dfs je zavisla na globalnich promennych, ale na demonstraci algoritmu nam staci
+```
+
 **Python - Dijkstra**
+
+```Python
+
+```
+
 **Python - Bubble Sort**
+
+```Python
+P = [352, 156364, 11, 34241, 123, 523523, 1555, 133, 1341, 5667, 1, 444, 14]    # Nase nesetridene pole
+
+_continue = True    # Promenna, ktera nam bude rikat, zda mame ve trideni pokracovat
+
+# Dokud je co vymenovat, pokracujme ve trideni
+while _continue:
+    _continue = False   # Nebude-li jiz co vymenit, pole je setridene, proto vzdy na zacatku nastavujeme tuto promennou na false
+
+    # Pro kazdy prvek v poli provedeme:
+    for i in range(0, len(P)-1):
+
+        # Zkontrolujeme, zda prvek nalevo neni vetsi nez prvek napravo, popr. prvky prohodime
+        if(P[i] > P[i+1]):
+            temp = P[i]
+            P[i] = P[i + 1]
+            P[i + 1] = temp
+            _continue = True   # Museli jsme prohazovat prvky, takze chceme pokracovat ve trideni
+
+print(P)
+```
+
 **Python - Selection Sort**
+
+```Python
+
+```
+
 **Python - Insertion Sort**
 **Python - Merge Sort**
 **Python - Quick Sort**
@@ -212,3 +296,4 @@ Michael Sambol - Selection Sort in 3 minutes - https://inv.nadeko.net/watch?v=g-
 Michael Sambol - Insertion Sort in 2 minutes - https://inv.nadeko.net/watch?v=JU767SDMDvA&listen=false          
 Michael Sambol - Quick Sort in 4 minutes - https://inv.nadeko.net/watch?v=Hoixgm4-P4M&listen=false              
 Michael Sambol - Merge Sort in 3 minutes - https://inv.nadeko.net/watch?v=4VqmGXwpLqc&listen=false      
+Bro Code - Learn Quick Sort in 13 minutes - 
