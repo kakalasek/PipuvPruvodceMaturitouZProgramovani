@@ -74,16 +74,48 @@ Pro maturitu by vám měla stačit jen přibližná představa, popř. znalost i
 
 ![Dijkstra](dijkstra.gif)
 
-TEXT HERE
+Asi nejznáměnjším a zároveň jediným algoritmem, na který se v této kategorii podíváme, je Dijkstrův algoritmus. Budeme brát v potaz pouze jeho verzi bez využití haldy, ať si to neděláme zbytečně složité. Tato verze je sice pomalejší, ale čas O(n^2) je pro husté grafy docela dobrý.           
+Nejlpeší asi bude, podívat se na video, ale zkusím vám tu v rychlosti osvětlit, jak tento algoritmus funguje. Určitě si vzpomenete, že jedním z výsledků BFS je list nejkratších cest. Nicméně BFS neumí počítat s ohodnocenými hranami. Mohli bychom si každou hranu rozdělit na tolik menších hran, jako je její ohodnocení. Nicméně to by bylo neskutečně neefektivní. Dijkstrův algoritmus je vlastně takové šikovné rozšíření BFS tak, že dovede pracovat s ohodnocenými hranami.              
+Na začátku opět musíme mít nějaký vrchol, ze kterého začneme hledat. Uděláme si pomocný list, který bude ke každému uzlu držet číslo, jež bude označovat aktuální nejkratší vzdálenost. Opět budeme mít tři stavy vrcholů. Nenalezený, těm vzdálenost nastavíme na kladné nekonečno, nebo nějakou vážně vysokou hodnotu. Otevřeny a uzavřený, to je analogické k BFS.               
+Kromě pomocné tabulky vzáleností chceme také nějaký výstup. Tím bude, stejně jako v případě BFS, list předchůdců, tedy vrcholů, přes které se můžeme nejkratší cestou dostat do určitého vrcholu.               
+Zůstane-li nějaký vrchol neobjevený, jeho vzdálenost zůstane na kladném nekonečnu, zkrátka se k němu nedá dostat.           
+Algrotimus se nejdříve chová naprosto stejně, jako prohledávání do šířky. Prohledá všechny vrcholy, které sousedí s vrcholem, jenž jsme si zvolili jako počáteční. Pro každý z nich si zapíše vzdálenost. Následně, a teď je to důležité, se vydá do vrcholu, který je nejblíže. V něm se proces opakuje. Prohledá všechny jeho sousedy, zapíše si vzdálenosti a vrchol uzavře. Následně opět z otevřených vrcholů vybere ten, který má nejmenší vzdálenost od počátečního vrcholu. Pro něj provede to samé a tak pořád dokola. Jednoduché, že? A velmi efektivní.              
+Kdyby vás zajímalo praktické využití a nevěřili jste mi, že to je v podstatě všude, tak třeba OSPF (Open Shortest Path First), tedy protokol pro dynamické routování, využívá právě Dijkstrův algorimus k nalezení nejkratší cesty.
 
-TEXT HERE
+Poslední část otázky je nazvaná jako řazení. Chápu to tak, že se jedná o třízení pole prvků pomocí různých algoritmů. Algoritmů na tento problém máme opravdu hodně. My si tu zmíníme jen ty nejznámější, o kterých jsme si říkali ve škole. Kdyby vás toto téma zajímalo více, můžete prošmejdit internet. Třeba takový heap sort, který zde probírat nebudeme, je docela zajímavý algoritmus.                 
+Začneme třemi jednoduchými a intuitivními algoritmy. Jsou krátké, rychlé na implementaci a svou práci splní. Nicméně všechny mají jeden menší nešvar. Jejich časová složitost je O(n^2) o moc lepší výsledky z nich ve většině případů nevytřískáme. Pro větší soubory dat se tedy zpravidla nehodí.            
+Poslední věc, kterou se hodí poznamenat. Při řazení rozhodně nemusíme nutně pracovat s čísly. Můžeme klidně pracovat i s objekty, nic nám nebrání. Stačí si nastavit podmínky, na základě kterých můžeme objekty porovnat. Nicméně my to pro jednodušší pochopení budeme předpokládat, že třídíme čísla podle velikosti od nejmenšího po nejvetší.
 
 ![Bubble Sort](bubble_sort.gif)
+
+Začneme nám dobře známým bublinkovým tříděním (Bubble Sort). Na gifu výše můžete vidět, jak asi funguje. Jednoduše procházíme pole a vždy koukáme na dva vedle sebe ležící prvky a pokud je ten napravo menší, prohodíme je. Takhle nám velká čísla "probublají" doprava. Neupravená verze algoritmu projde pole vždy opravdu n^2 krát. Můžeme ho malinko zrychlit tak, že po každém průchodu polem zkontroluje, zda již není sezařené a v takovém případě skončí.
+
+![Selection Sort](selection_sort.gif)
+
+Trochu zajímavější algoritmus než bublinkové třídění je třídění výběrem (Selection Sort). Nicméně v rámci efektivity zpravidla stejně otřesný. Nad tímto textem je moc hezká animace tohoto řazení. Je to jednoduché. Algoritmus vždy projde pole, vybere nejmenší prvek a zařadí ho na začátek. Pak opět projde pole (bez toho zařazeného prvku samozřejmě), vybere nejmenší prvek, zařadí ho za první nejmenší prvek a proces se znovu opakuje, dokud není pole seřazené. 
+
+![Insertion Sort](insertion_sort.gif)
+
+Třídění vkládáním také stojí za zmínku (Insertion Sort). Jen tak pro zajímavost, v Průvodci je Selection sort v jednom případě nazván jako Insertion Sort, to je prosím pravděpodobně nějaké nedopatření. Nicméně tyto dva algoritmy jsou si určitým způsobem podobné.          
+Třídění vkládáním vždy vezme další prvek v poli a zařadí ho na místo mezi ostatní prvky, který již seřadilo, tak, aby tato část zůstala seřazená. Takže levá část pole je vždy seřazená a my do ní jen postupně třídíme prvky zprava. Ostaně to můžete vidět na obrázku.            
+Ačkoliv to zní kůl a všechno, stále je to v rámci rychlosti totální bída, takže jedeme dál. 
+
+![Merge Sort](merge_sort.gif)
+
+Tady už se dostáváme ke značně zajímavějšímu algoritmu, třídění sléváním (Merge Sort). Jeho složitost už je značně lepší O(n*log(n)).               
+Funguje zhruba následovně. Nejdříve si rozdělíme pole na jednotlivé prvky. Pak začneme jednotlivé prvky slévat. Při každém slévání je výsledné pole setřízené. Nu, tímto způsobem nakonec slijeme celé pole zpět.       
+Algoritmus se běžně implementuje rekurzivně.
+
+![Quick Sort](quick_sort.gif)
+
+Tak, poslední algoritmus, který si zde ukážeme, je Quick Sort. Quick Sort je to proto, že je vskutku rychlý. Měl by v průměru být rychlejší, než třídění sléváním, ačkoliv má stejnou časovou složitost. Proč? Nu, v praxi zkrátka funguje lépe. Nicméně při velmi špatné volbě pivota může teoreticky běžet i déle, a to v čase O(n^2).            
+Takže, zkusíme si teď nějak vysvětlit, jak to fachá. Stejně jako merge sort, i quick sort je rekurzivní algoritmus. Má ale jeden hlavní rozdíl, který se odráží na paměťové složitosti. Nevytváří nová pole, ale řadí původní pole tzv. na místě.           
+Na začátku každé iterace si musíme zvolit nějakého pivota. To můžeme udělat na základě nějakého předpokladu, nebo zkrátka náhodně. Po zvolení pivota dáme všechny prvky, které jsou větší než pivot, na jednu stranu a prvky, které jsou menší, na tu druhou. Poté si vezmeme levou a pravou část pole od pivota a provedeme s ní obdobný proces. Zvolíme pivota, rozdělíme prvky. Na konci bychom měli dostat perfektně seřazené pole.
 
 Ukázky kódu
 ---
 
-Pozn.: Vysvětlení kódu bude zpravidla jen u jednoho z programovacích jazyků. Šetří mi to práci a všech jazyků bude vypadat algoritmus analogicky.
+Pozn.: Vysvětlení kódu bude zpravidla jen u jednoho z programovacích jazyků. Šetří mi to práci a u všech jazyků bude vypadat algoritmus analogicky.
 
 **Python - BFS**
 
@@ -130,12 +162,32 @@ print(P)
 ```
 
 **Python - DFS**
+**Python - Dijkstra**
+**Python - Bubble Sort**
+**Python - Selection Sort**
+**Python - Insertion Sort**
+**Python - Merge Sort**
+**Python - Quick Sort**
 
 **Java - BFS**
 **Java - DFS**
+**Java - Dijkstra**
+**Java - Bubble Sort**
+**Java - Selection Sort**
+**Java - Insertion Sort**
+**Java - Merge Sort**
+**Java - Quick Sort**
 
 **C++ - BFS**
 **C++ - DFS**
+**C++ - Dijkstra**
+**C++ - Bubble Sort**
+**C++ - Selection Sort**
+**C++ - Insertion Sort**
+**C++ - Merge Sort**
+**C++ - Quick Sort**
+
+
 
 Materiály
 ---
@@ -152,6 +204,7 @@ Reducible - Depth First Search (DFS) Explained - https://inv.nadeko.net/watch?v=
 Wikipedia - Prohledavani do hloubky - https://cs.wikipedia.org/wiki/Prohled%C3%A1v%C3%A1n%C3%AD_do_hloubky               
 Reducible - Breadth First Search (BFS) Explained - https://inv.nadeko.net/watch?v=xlVX7dXLS64&listen=false          
 Michael Sambol - Dijkstra's Algorithm in 3 minutes - https://inv.nadeko.net/watch?v=_lHSawdgXpI         
+Spanning Tree - How Dijkstra's Algorithm Works -        
 Computerphile - A Star Search Algorithm - https://inv.nadeko.net/watch?v=ySN5Wnu88nE            
 
 Michael Sambol - Bubble Sort in 2 minutes - https://inv.nadeko.net/watch?v=xli_FI7CuzA          
