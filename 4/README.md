@@ -27,7 +27,96 @@ Ukázky kódu
 ---
 
 **Python - Lambda**
+
+```Python
+# Vytvorime jednoduchou lambda fci, ktera umocni cislo na druhe cislo
+# V Pythonu se lambda vytvari klicovym slovem 'lambda'
+# V lambda muze byt prave jeden prikaz
+# Lambdu muzeme takhle elegantne ulozit do promenne
+pow_on = lambda x, y: x**y
+
+print(pow_on(10, 3))
+
+# Prakticke vyuziti muze byt napr. u fci map a filter
+# Zde je metoda opravdu anonymni, protoze vstupuje pouze jako parametr, podobne jako cislo. Nema jmeno a po provedeni uz ji nikdy neuvidime
+lst = [1, 2, 4, 7, 9, 11]
+
+lst = map(lambda x: x**2, lst)  # Umocnime kazdy prvek listu na druhou
+
+print(list(lst))
+
+lst = [1, 2, 4, 7, 9, 11]
+
+lst = filter(lambda y: y % 2, lst) # Odstranime vsechna suda cisla
+
+print(list(lst))
+```
+
 **Python - Special methods**
+
+```Python
+# Toto je je pomocna trida Node, aby nas Stack fungoval plus minus tak, jak ma. Nemusite ji venovat velkou pozornost
+class Node():
+
+    def __init__(self, value, next):
+        self._next = next
+        self._value = value
+
+    def getNext(self):
+        return self._next
+
+    def getValue(self):
+        return self._value
+
+    def setNext(self, next):
+        self._next = next
+
+    def setValue(self, value):
+        self._value = value
+
+
+# Udelame si tridu Stack. Na ni muzeme specialni metody hezky demonstrovat
+class Stack():
+
+    # Prvni z nich je __init__, ktery ze zavola pri vytvoreni objektu pro inicializaci. Je to ekvivalent konstruktoru 
+    def __init__(self):
+        self._head = None
+        self._len = 0
+
+    def push(self, value):
+        if self._head == None:
+            self._head = Node(value, None)
+            self._len += 1
+            return
+
+        temp = Node(value, self._head)
+        self._head = temp
+        self._len += 1
+
+    # Dalsi specialni metoda. Mela by vracet vypsatelnou verzi objektu. Treba print() by ji mel vyuzit defaultne
+    def __repr__(self):
+        temp = self._head
+        s = ""
+        while temp:
+            s += str(temp.getValue()) + " "
+            temp = temp.getNext()
+
+        return s
+
+    # Tuto metodu vyuzije metoda len(), kterou nyni muzeme zavolat i na nas stack a ten poslusne vrati svou velikost 
+    def __len__(self):
+        return self._len
+    
+# Magickych metod existuje nespocet, ruzne casti pythonu je mohou ruzne vyuzivat. Takovym nepsanym pravidlem je, ze by se nikdy nemely volat takto: __len__(), tedy beznym zpusobem
+
+stack = Stack()
+stack.push(10)
+stack.push('hello')
+
+print(stack)
+print(len(stack))
+```
+
 **Python - Static methods**
 **Python - Functions**
 
