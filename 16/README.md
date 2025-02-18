@@ -14,16 +14,21 @@ Práce s CSV souborem je velmi jednoduchá. Rozdělené řádky se dobře parsuj
 
 ![JSON](json.png)
 
-Druhým jednoduchým formátem je JSON (Javascript Object Notation). Tento formát dovede velmi jednoduše uložit objekt. Je velmi jednoduché ho parsovat do dictionary. Podporuje řadu datových typů, od objektů přes pole ke klasickým stringům.               
-Já osobně ho mám nejraději, je dobře čitelný a dobře se s ním pracuje.
+Druhým jednoduchým formátem je JSON (Javascript Object Notation). Tento formát dovede velmi jednoduše uložit objekt. Dá se dobře parsovat do dictionary. Podporuje řadu datových typů, od objektů přes pole ke klasickým stringům a numberickým datovým typům.               
+Já osobně ho mám nejraději, je dobře čitelný a dobře se s ním pracuje. Často se využívá u webových aplikací, prací s HTTP.
 
 ![XML](xml.jpg)
 
-Další dříve hojně používaným formátem je XML. Vychází z podobné notace jako HTML. Má své výhody, jako třeba XML schéma. Nicméně osobně jsem s ním nijak nepracoval.
+Dalším dříve hojně používaným formátem je XML (Extensible Markup Language). Vychází z podobné notace jako HTML. Má své výhody, jako třeba XML schéma. Nicméně osobně jsem s ním nijak extensivně nepracoval, tak maximálně v nějakém konfiguračním souboru, třeba Maven ho využívá.                      
+Nevýhodou je, že kvůli nutnosti otevíracího a uzavíracího tagu u každého záznamu mohou být větší XML soubory skutečně větší.
 
-![YAML](yaml)
+![YAML](yaml.jpg)
 
-Poslední
+Posledním, tentokrát velmi elegantním, formátem souboru, je YAML (YAML Aint Markup Language). Narozdíl od všech předchozích formátu aktivně využívá whitespaci, tedy neviditelné znaky, mezera, newline, ...                
+Využívá ho např. Ansible nebo Docker-compose. V rámci serializace jsem s ním nikdy nepracoval, opět pouze jako konfigurační soubor nějaké externí aplikace.
+
+Do souboru se zpravidla zapisuje pomocí tzv. streamů. Streamem, který určitě znáte např. v Javě, je System.out a System.in. Jeden dovede načítat data z konzole, druhý je dovede vypsat. Takový stream ale můžeme vytvořit v podstatě libovolný. Můžeme do něj psát data, která se budou posílat na síť, nebo psát a číst data do a ze souboru.             
+Soubory lze číst a zapisovat charakter po charakteru, byte po bytu, řádek po řádku. Zkrátka, jak se nám to hodí. Programovací jazyk nám k tomu dá patřičné nástroje.
 
 Ukázky kódu
 ---
