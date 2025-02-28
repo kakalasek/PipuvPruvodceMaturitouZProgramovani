@@ -178,13 +178,198 @@ int main(){
 }
 ```
 
-**Python - Generics**
-**Python - Operators**
+**Python - Operators and datatypes**
+
+```Python
+from enum import Enum
+
+""" Data types """
+
+n1 = 10 # Integer
+n2 = 10.12 # Double
+b1 = True # Boolean
+s1 = 'Hello' # String
+nn = None   # Null
+
+t1 = (12, 3, 5) # Tuple
+a1 = [12, 5, 'No'] # Array
+set1 = {45, 'Hoho', 552} # Set
+dict1 = {"Hello": 562, 11: "no"} # Dictionary
+
+def plus(x: int, y: int):
+    return x + y
+
+func = plus # function
+
+print(func(2, 3))
+
+class Color(Enum):  # Enum
+    RED = 0
+    GREEN = 1
+    BLUE = 2
+
+""" Operators """
+
+# Arithmetic
+
+1 + 1
+1 - 1
+2 * 2
+3 / 3
+3 // 3
+4**2
+4 % 3
+
+# Comparison
+
+1 == 1
+2 != 1
+2 > 1
+2 < 1
+2 >= 1
+2 <= 1
+
+# Assignment
+
+x = 0
+x += 2
+x -= 5
+x *= 10
+x /= 2
+x //= 7
+x **= 3
+x % 9
+
+# Logical
+
+x == x
+x and x
+x or x
+not x
+
+# bitwise
+
+1 & 1   # AND
+1 | 1   # OR
+~1  # NOT
+1 ^ 1   # XOR
+1>>1    # BIT SHIFT RIGHT
+2<<2    # BIT SHIFT LEFT
+```
 
 **Java - Generics**
+
+```Java
+class Main{
+
+    // Trida, ktera vyuziva generika. Zapisuji se do spicatych zavorek. Typicky se oznacuji T. Muze jich byt i vice
+    static class GenericMaster<T>{
+
+        private T myGeneric;    // Promenna generickoho datoveho typu
+
+        public GenericMaster(T myGeneric){
+            this.myGeneric = myGeneric;
+        }
+
+        // Jednoducha metoda, ktera vypise datovy typ vlastnosti myGeneric
+        public Object getDatatype(){
+            return myGeneric.getClass();
+        }
+    }
+
+    public static void main(String[] args) {
+        /* Vytvorime instanci tridy. Pri deklaraci musime specifikovat datovy typ, ktery bude interne vyuzivat vsude, kde jsme zapsali genericky
+         * datovy typ T. Zde je to Integer. V Jave nelze vyuzit primitivni datove typy na miste generika, Integer je trida, ktera se chova analogicky k datovemu typu int.
+         */
+        GenericMaster<Integer> g = new GenericMaster<>(3000);
+        System.out.println(g.getDatatype());
+
+        /* Zde jsme vytvorili instanci stejne tridy, nicmene tentokrat jsme do ni ulozili String */
+        GenericMaster<String> g2 = new GenericMaster<>("Hello");
+        System.out.println(g2.getDatatype());
+    }
+}
+```
+
 **Java - Anotations**
 
+```Java
+class Main {
+
+    public static class Shape{
+        public String calculateArea(){
+            return "I have no idea, what my area is";
+        }
+    }
+   
+    /* Anotace zpravidla funguji jako takova metadata, pri samotnem zkompilovani pak jiz nehraji roli
+     * Napr. anotace FunctionalInteface nam bude rvat, kdyz se pokusime pridat to rozhrani dalsi metodu. Functional interface musi mit totiz prave jednu
+     */
+    @FunctionalInterface
+    public static interface ExtremelyFunctional {
+        void doSomethingVeryFunctional(); 
+    }
+
+    public static class Square extends Shape implements ExtremelyFunctional{
+        
+        /* Nase stara znama Override anotace. V postate nic nedela, jen informuje programatora o tom, ze metoda je prepsana z rodicovske tridy */
+        @Override
+        public String calculateArea(){
+            return "My side on the power of two";
+        }
+
+        /* Podobne jako u Override, Deprecated nas muze informovat o metode, ktera jiz byla nahrazena nejakou lepsi */
+        @Deprecated
+        public void doSomethingVeryFunctional(){
+            /* Z tech uzitecnejsich anotaci je tu treba SupressWarnings, ktera nam dovede umlcet nejake varovani od naseho vyvojoveho prostredi */
+            @SuppressWarnings("unused")
+            int unused = 10;
+        }
+
+    }
+
+    public static void main(String args[]){
+    }    
+}
+```
+
 **C++ - Generics**
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+template <typename T>
+class GenericClass{
+    private:
+        T genericVariable;
+
+    public:
+        GenericClass(T genericVariable){
+            this->genericVariable = genericVariable;
+        }
+
+        string getMeDataType(){
+            return typeid(this->genericVariable).name();
+        }
+};
+
+int main(){
+    GenericClass<int> g(20);
+    cout << g.getMeDataType() << endl;
+
+    GenericClass<string> s("Hello");
+    cout << s.getMeDataType() << endl; 
+
+    GenericClass<float> *t = new GenericClass(20.12f);
+    cout << t->getMeDataType() << endl;
+
+    delete t;
+
+    return 0;
+}
+```
 
 Materiál
 ---
