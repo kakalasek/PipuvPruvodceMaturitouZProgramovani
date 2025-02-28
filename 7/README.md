@@ -374,5 +374,5 @@ int main(){
 Materiál
 ---
 
-Coding with John - Annotations in java tutorial -       
-Coding with John - Java Strings are Immutable - 
+Coding with John - Annotations in java tutorial -   https://inv.nadeko.net/watch?v=DkZr7_c9ry8              
+Coding with John - Java Strings are Immutable - https://inv.nadeko.net/watch?v=Bj9Mx_Lx3q4          
