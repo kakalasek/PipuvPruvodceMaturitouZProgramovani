@@ -6,20 +6,20 @@ Povídání
 
 ![Data Types](data_types.jpg)
 
-Datové typy. Podstatu datového typu si ukážeme na jednoduchém příkladu. Když vám tu napíši toto: **01100001**, dovede odhadnout, co to znamená? Dobře, ještě trochu upřesním. Tohle bude binární hodnota v jedné paměťové buňce. Co tu je za hodnotu? Je to číslo? Nebo část většího číslo? Ukazatel? Znak?. To nevíme, může to být cokoliv si zamaneme. Dokud tomu nedáme jasný datový typ.            
+Datové typy. Podstatu datového typu si ukážeme na jednoduchém příkladu. Když vám tu napíši toto: **01100001**, dovede odhadnout, co to znamená? Dobře, ještě trochu upřesním. Tohle bude binární hodnota v jedné paměťové buňce. Co to je za hodnotu? Je to číslo? Nebo část většího čísla? Ukazatel? Znak?. To nevíme, může to být cokoliv si zamaneme. Dokud tomu nedáme jasný datový typ.            
 Datové typy nám tedy říkají, jak se máme k daným datům chovat, jak je máme interpretovat. Označíme-li tedy naše číslo jako INT, bude jeho hodnota 97. Oznáčíme-li ho jako CHAR, bude jeho hodnota písmeno 'a'. Pokud kódujeme podle ASCII, kódováním se v této otázce nebudeme hlouběji zabývat.            
 Datových typů existuje spousta a každý programovací jazyk s nimi může zacházet mírně odlišně. Ku příkladu jazyk C má sice datový typ *char*, nicméně ten, místo aby nutně určoval, že hodnota je znak, udává jen číslo ve velikosti jednoho bytu. Zda ho budeme interpretovat jako číslo nebo ne, nechává na nás. Jiné jazyky ale nemusí být ve své interpretaci tak volné.             
 Na obrázku nahoře máte docela hezký výpis různých datových typů, asi netřeba je všechny rozebírat. Podíváme se jen na nějaké zajímavé.              
 Asi nejzajímavějším a přitom jedním z nejběžnějších datových typů je STRING, textový řetězec. Každý programovací jazyk si s ním hraje jinak. V jazyce C není STRING nic víc než pole charů ukončené null terminátorem. Když se podíváme ještě více do hloubky, proměnná, kterou dostaneme po vytvoření STRINGU nebo jiného libovolného pole, není nic jiného, než pointer na první prvek pole. Víme, jak velký je jeden prvek pole a jak je pole dlouhé, takže se v něm můžeme libovolně pohybovat pomocí přičítání a odčítání čísel k ukazateli.           
 
-Nu, ale co když nevíme, jaký datový typ chceme využít? Na pomoc nám přichází generika. V jazyku C bohužel nic takového nemáma, ale např. Java nám je nabízí. Řekněme, že si opět vytváříme vlastní zásobník a chtěli bychom do něj ukládat více různých datových typů. Nu, ve třídě tedy budeme pracovat s nějakým generikem, typicky označováným T. Když pak object deklarujeme, místo generika vložíme datový typ, který chceme ukládat. Jednoduché, že?              
+Nu, ale co když nevíme, jaký datový typ chceme využít? Na pomoc nám přichází generika. V jazyku C bohužel nic takového nemáme, ale např. Java nám je nabízí. Řekněme, že si opět vytváříme vlastní zásobník a chtěli bychom do něj ukládat více různých datových typů. Nu, ve třídě tedy budeme pracovat s nějakým generikem, typicky označováným T. Když pak object deklarujeme, místo generika vložíme datový typ, který chceme ukládat. Jednoduché, že?              
 
 Existuje také něco, čemu zde pan ředitel fancy názvem říká výčtové datové typy. My lidi tomu budeme říkat enum. Enum se využívá, máme-li několik pevně daných neměnných hodnot, ze kterých chceme vybírat. Třeba dny v týdnu, měsíce, ... Každá hodnota je v realitě jenom číslo. To nás ale nemusí zajímat, my jen potřebujeme mezi těmito hodnotami rozlišovat.               
 
 Struktury. Upřímně, nechápu, proč přesně je tady tento specifický .. datový typ? zařazen. Lze ho smysluplně využít v postatě jen v programovacích jazycík jako C nebo C++ a i tam už byl v postatě nahrazen třídami.            
 Struktura není nic jiného, než že namrdáme několik datových typů do paměti za sebou a pak k nim můžeme přistupovat pomocí tečky a jména datového typu v dané struktuře. Ano, opravdu, to je všechno. Struktura se dovede chovat jako třída. Protože, fanfáry, funkce je také datový typ. Můžeme tedy vytvořit strukturu, která bude mít nějaké proměnné, vlastnosti, a nějaké funkce, metody.           
 
-Anotace. Dobře, no, jediný programovací jazyk, ve kterém jsem kdy s anotacemi pracoval, je Java. Jestli to umí i nějaký jiný, nevím, možná ostré cé, ale v tom mi tu neděláma. Nicméně, anotace můžeme chápat jako jakýsi koment, který funguje jako metadata pro program. Anotace zpravidla vypadají nějak takto: **@Text(Paramtery)** a typicky se píši nad metodu, vlastnost nebo třídu. Ne každá anotace musí mít parametry.            
+Anotace. Dobře, no, jediný programovací jazyk, ve kterém jsem kdy s anotacemi pracoval, je Java. Jestli to umí i nějaký jiný, nevím, možná ostré cé, ale v tom mi tu neděláme. Nicméně, anotace můžeme chápat jako jakýsi koment, který funguje jako metadata pro program. Anotace zpravidla vypadají nějak takto: **@Text(Paramtery)** a typicky se píši nad metodu, vlastnost nebo třídu. Ne každá anotace musí mít parametry.            
 Z příkladů anotací třeba @SupressWarning(*nazev upozorneni*). To dovede potlačit nějaké upozornění, které vám dává IDE. Nebo náš dobře známý @Override. Tato anotace je spíše dekorativní, nic specifického nedělá. Pomocí reflekce pak můžeme anotace využívat, chceme-li. Dají se vytvořit i uživatelské anotace.             
 Anotace typicky hojně využívají frameworky, třeba Spring.           
 
@@ -27,7 +27,6 @@ Operátory. Nu, mám jich hodně. Od těch aritmetických až po různé speciá
 Unární operátor je např. **!**, negace.             
 Binární je v podstatě každý aritmetický operátor od sčítání po modulo.          
 Ternární operátor znám jen jeden, lze ho velmi hezky využít, ale ne každý programovací jazyk ho implementuje. Vypadá asi takhle: **Vyraz ? proved pokud vyraz plati : proved pokud vyraz neplati**.
-
 
 Ukázky kódu
 ---
