@@ -31,7 +31,18 @@ Zásobník nachází své praktické uplatnění např. v paměti, kde existuje 
 
 ![Queue](queue.png)
 
-Další z datavých struktur, které se odvijí od spojového seznamu, je fronta. Fronta je přesně to, co si představíte, je to fronta prvků. Prvky můžeme přidávat zezadu a odebírat zpředu fronty.
+Další z datavých struktur, které se odvijí od spojového seznamu, je fronta. Fronta je přesně to, co si představíte, je to fronta prvků. Prvky můžeme přidávat zezadu a odebírat zpředu fronty.              
+V realitě fronta není nic jiného než obousměrný spojový seznam.             
+Reálné využití fronty lze najít na spoustě míst. My si zmíníme třeba frontu procesů, ze kterých vybírá scheduler operačního systému.
+
+![Tree](tree.png)
+
+Strom. Opět se nejedná o nic jiného, než o spojový seznam, jen tentokrát trochu speciální. Každý další node má seznam nodů, na které odkazuje. Pokud je počet těchto nodů maximálně dva, jedná se o binární strom.                  
+Můžeme jím reprezentovat třeba dialog ve hře, popř. nějaký rozhodovací strom.               
+
+![Heap](heap.png)
+
+Poslední, tak docela speciální datovou stukturou, je halda. 
 
 Ukázky kódu
 ---
