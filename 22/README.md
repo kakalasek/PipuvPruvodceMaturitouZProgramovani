@@ -4,6 +4,8 @@ Vlákna, Paralerní programování, Asynchronní metody, Concurrent design patte
 Povídání
 ---
 
+Chceme-li
+
 Ukázky kódu
 ---
 
