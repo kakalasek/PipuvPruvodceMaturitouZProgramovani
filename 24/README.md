@@ -10,7 +10,8 @@ Tzv. Try-Catch nám obvykle slouží právě pro tento účel. Do bloku Try dám
 Výjimek existuje různé množství a jejich rozdělení je závislé také na programovacím jazyce. Zpravidla jsou implementované jako třídy. Lze si vytvářet i vlastní výjimky.                
 Výjimku můžeme vyhodit i my v nějaké z vlastních metod.             
 Důležitým blokem, který také existuje, je blok Finally. Tento blok se provede vždy, nezávisle na tom, zda byla v kódu vyhozena výjimka, či nikoliv.             
-Debugování .. nu, chceme-li se podívat, co náš kód dělá, dělá-li něco, co se nám nezdá, nebo dělá něco úplně špatně, můžeme využít debugování. Běžně to vypadá třeba tak, že si do nějaké části kódu vložíme breakpoint. To je místo, ve kterém se provádění kódu zastaví a my můžeme ovládat jeho průběh. Spouštět ho postupně po řádcích, vstupovat do jednotlivých metod, sledovat hodnoty proměnných.
+Debugování .. nu, chceme-li se podívat, co náš kód dělá, dělá-li něco, co se nám nezdá, nebo dělá něco úplně špatně, můžeme využít debugování. Běžně to vypadá třeba tak, že si do nějaké části kódu vložíme breakpoint. To je místo, ve kterém se provádění kódu zastaví a my můžeme ovládat jeho průběh. Spouštět ho postupně po řádcích, vstupovat do jednotlivých metod, sledovat hodnoty proměnných.           
+Debugovat lze také pomocí asercí. Ty zkrátka zkontrolují nějakou podmínku a je-li náhodou nepravdivá, zastaví program.
 
 Ukázky kódu
 ---
