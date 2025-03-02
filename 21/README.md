@@ -42,7 +42,8 @@ Můžeme jím reprezentovat třeba dialog ve hře, popř. nějaký rozhodovací 
 
 ![Heap](heap.png)
 
-Poslední, tak docela speciální datovou stukturou, je halda. 
+Poslední, tak docela speciální datovou stukturou, je halda. Halda je speciální typ binárního stromu.                
+Na obrázku se nejlépe popíše princip haldy. Každý node může mít buď pouze levý dceřinný node, dva nody, nebo žádný.
 
 Ukázky kódu
 ---
