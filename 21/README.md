@@ -43,7 +43,20 @@ Můžeme jím reprezentovat třeba dialog ve hře, popř. nějaký rozhodovací 
 ![Heap](heap.png)
 
 Poslední, tak docela speciální datovou stukturou, je halda. Halda je speciální typ binárního stromu.                
-Na obrázku se nejlépe popíše princip haldy. Každý node může mít buď pouze levý dceřinný node, dva nody, nebo žádný.
+Na obrázku se nejlépe popíše princip haldy. Každý node může mít buď pouze levý dceřiný node, dva nody, nebo žádný.             
+Rozlišujeme dva základní typy haldy. Min-Heap a Max-Heap. U min haldy platí vždy tato podmínka: Hodnoty dceřiných nodů musí být větší, nebo rovny hodnotě daného nodu. Na vrchu, u kořene, bude tedy vždy nejnižší hodnota v haldě. U max heapu to funguje obdobně jen obráceně.    
+
+![Heap Insert](heap_insert.gif)
+
+U haldy provádíme dva základní operace. Vklad nového prvku a odstranění prvku u kořene. Vklad prvku je trochu složitý. Zkusíme si to trochu rozebrat. Co víme? Je povoleno, aby node měl jen jeden dceřiný node, a to právě vlevo. Také víme, že nejmenší/nejvetší hodnota, musí být vždy nahoře, tedy směrem ke kořeni haldy jsou prvky čím dál tím menší/větší.               
+Nuže vklad nového prvku tedy vypadá asi nějak takto: Vytvoříme nový node, a to vždy tak, abychom zaplňovali haldu plus minus rovnoměrně. Začínáme tedy nejdříve plnit levé dceřiné nody poslední řady. Lépe než já to popíše gif nebo video.            
+Nasledně ale můsíme zařídit, že je prvek na správném místě a platí vždy pravidlo, které jsme si na začátku nastavili. To uděláme tzv. probubláním prvku. Např. v případě min haldy to bude vypadat asi tak, že se vždy podíváme, zda prvek nahoře náhodou není větší. Pokud je, vymění si s ním nový prvek místo a tak dokud se nedostatne na svou pozici.          
+
+![Heap Pop](heap_delete.gif)
+
+Druhou oprací je odebrání prvku z vrchu haldy. To je v podstatě dosti podobné. Vezmeme nejdříve prvek, který je na vrchu haldy, odstraníme ho a vrátíme ho. Pak najdeme prvek na spodu haldy, který dáme nahoru místo našeho odstraněného prvku.                
+Tento prvek nemůžeme vybrat náhodně, musíme zachovat strukturu haldy. Vybíráme tedy prvek tak, abychom zachovali rovnost spodní části haldy. Důležitou informací je, že v levém křídle haldy může být o prvek více.                 
+Následně musíme opět zaručit, že platí naše podmínka, takže vrchní prvek, obodobně, jako jsme to dělali u přidávání, necháme probublat na jeho místo. Např. u min haldy do provedeme tak, že vždy vezmeme menší ze dvou dceřiných nodů a ten prohodíme s našim novým kořenovým nodem. Samozřejmě pod podmínkou, že oba nody jsou menší než náš nový kořenový node.
 
 Ukázky kódu
 ---
