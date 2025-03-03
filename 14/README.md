@@ -90,16 +90,109 @@ V případě, že třída A může existovat sama o sobě, jde o agregaci.
 Využívá se toho např. kdybychom chtěli dát zvířátka do naší farmy. Měli bychom nějaký list zvířátek, do kterého bychom je ukládali. To by byla agregace, protože zvířátko může existovat samo o sobě.                   
 Takže v podstatě uložíme objekt do objektu. K uloženému objektu pak přistupujeme jen a pouze přes objekt, ve kterém je uložen.
 
+
+Určitě stojí za to zmínit jednu speciální metodu, kterou zpravidla každá třída mívá, konstruktor. Tato metoda je zodpovědná za inicializaci objektu. Tedy za inicializaci jejich proměnný, popř. načtení jejich hodnot ze souboru.          
+Konstruktor může být i prázdný, nemá-li smysl pro třídu nic inicializovat
+
 Ukázky kódu
 ---
 
-**Python - Functional**
 **Python - OOP**
+```Python
+class Square():
+
+    # Konstruktor
+    def __init__(self, a):
+        self._a = a
+
+    def set_a(self, a):
+        self._a = a
+
+    def get_a(self):
+        return self._a
+    
+    def get_area(self):
+        return self._a**2
+    
+
+if __name__ == "__main__":
+    s1 = Square(5)
+    
+    print(s1.get_a())
+    print(s1.get_area())
+```
 
 **Java - OOP**
 
-**C++ - Functional**
+```Java
+class Main{
+
+    static class Square{
+        private int a;
+
+        public Square(int a){
+            this.a = a;
+        }
+
+        public int getA(){
+            return this.a;
+        }
+
+        public void setA(int a){
+            this.a = a;
+        }
+
+        public int getArea(){
+            return a*a;
+        }
+    }
+
+    public static void main(String args[]){
+        Square s1 = new Square(10);
+        System.out.println(s1.getA());
+        System.out.println(s1.getArea());
+    }
+}
+```
+
 **C++ - OOP**
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Square{
+    private:
+        int a;
+
+    public:
+        Square(int a){
+            this->a = a;
+        }
+
+        int getA(){
+            return this->a;
+        }
+
+        void setA(){
+            this->a = a;
+        }
+
+        int getArea(){
+            return this->a*this->a;
+        }
+};
+
+int main(){
+    Square s1 = Square(5);
+
+    cout << s1.getA() << endl;
+    cout << s1.getArea() << endl;
+
+    return 0;
+}
+```
 
 Materiály
 ---
