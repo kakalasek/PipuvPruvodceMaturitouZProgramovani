@@ -151,6 +151,7 @@ class Main{
             this.strength = strength;
         }
         
+        @Override
         public int hit(){
                 return baseDamage + strength;
             }
@@ -166,6 +167,7 @@ class Main{
             this.agility = agility;
         }
 
+        @Override
         public void takeHit(int amount){
             if(amount < agility) return;
 
@@ -198,7 +200,53 @@ class Main{
 **Java - Interface**
 
 ```Java
+class Main{
 
+    public static interface Shape{
+
+        int calculateArea();
+        
+    }
+
+    public static class Square implements Shape{
+
+        int a;
+
+        Square(int a){
+            this.a = a;
+        }
+
+        @Override
+        public int calculateArea() {
+            return a * a;
+        } 
+
+    }
+    
+    public static class Rectangle implements Shape{
+
+        int a;
+        int b;
+
+        Rectangle(int a, int b){
+            this.a = a;
+            this.b = b;
+        }
+
+        @Override
+        public int calculateArea() {
+            return a * b;
+        } 
+
+    }
+
+    public static void main(String[] args) {
+        Shape shapes[] = {new Square(5), new Rectangle(5, 6)};
+        for (Shape shape : shapes){
+            System.out.println(shape.calculateArea());
+        }
+    }
+}
 ```
 
 **C++ - Inheritance**
