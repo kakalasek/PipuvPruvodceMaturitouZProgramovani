@@ -31,7 +31,175 @@ Ukázky kódu
 
 **Python - Inheritance**
 
+```Python
+class Human:
+    
+    def __init__(self, name, health, base_damage):
+        self._name = name
+        self._health = health
+        self._base_damage = base_damage
+
+    def get_name(self):
+        return self._name
+    
+    def get_health(self):
+        return self._health
+    
+    def take_hit(self, amount):
+        if self._health - amount < 0:
+            self._health = 0
+        else:
+            self._health = self._health - amount
+
+    def heal(self, amount):
+        self._health = self._health + amount
+
+    def hit(self):
+        return self._base_damage
+    
+
+class Warrior(Human):
+
+    def __init__(self, name, health, base_damage, strength):
+        super().__init__(name, health, base_damage)
+        self._strength = strength
+
+    def hit(self):
+        return self._base_damage + self._strength
+
+class Ranger(Human):
+
+    def __init__(self, name, health, base_damage, agility):
+        super().__init__(name, health, base_damage)
+        self._agility = agility
+
+    def take_hit(self, amount):
+        if amount < self._agility:
+            return
+
+        if self._health - amount < 0:
+            self._health = 0
+        else:
+            self._health = self._health - amount
+
+
+if __name__ == "__main__":
+    warrior = Warrior("Big Man", 100, 12, 2)
+    ranger = Ranger("Middle Man", 80, 8, 16)
+
+    print("Warrior health: " + str(warrior.get_health()))
+    print("Ranger health: " + str(ranger.get_health()))
+
+    warrior.take_hit(ranger.hit())
+    ranger.take_hit(warrior.hit())
+
+    print()
+
+    print("Warrior health: " + str(warrior.get_health()))
+    print("Ranger health: " + str(ranger.get_health()))
+```
+
 **Java - Inheritance**
+
+```Java
+class Main{
+
+    public static class Human{
+
+        protected String name;
+        protected int health;
+        protected int baseDamage;
+
+        public Human(String name, int health, int baseDamage){
+            this.name = name;
+            this.health = health;
+            this.baseDamage = baseDamage;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getHealth() {
+            return health;
+        }
+
+        public void takeHit(int amount){
+            if(health - amount < 0){
+                health = 0;
+            } else {
+                health = health - amount;
+            }
+        }
+
+        public void heal(int amount){
+            health = health + amount;
+        }
+
+        public int hit(){
+            return baseDamage;
+        }
+
+    }
+
+    public static class Warrior extends Human{
+
+        private int strength;
+
+        public Warrior(String name, int heal, int baseDamage, int strength){
+            super(name, heal, baseDamage);
+            this.strength = strength;
+        }
+        
+        public int hit(){
+                return baseDamage + strength;
+            }
+
+    }
+    
+    public static class Ranger extends Human{
+
+        private int agility;
+
+        public Ranger(String name, int heal, int baseDamage, int agility){
+            super(name, heal, baseDamage);
+            this.agility = agility;
+        }
+
+        public void takeHit(int amount){
+            if(amount < agility) return;
+
+            if(health - amount < 0){
+                health = 0;
+            } else {
+                health = health - amount;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Warrior warrior = new Warrior("Big Man", 100, 12, 2);
+        Ranger ranger = new Ranger("Middle Man", 80, 8, 16);
+
+        System.out.println("Warrior health: " + warrior.getHealth());
+        System.out.println("Ranger health: " + ranger.getHealth());
+
+        warrior.takeHit(ranger.hit());
+        ranger.takeHit(warrior.hit());
+
+        System.out.println();
+
+        System.out.println("Warrior health: " + warrior.getHealth());
+        System.out.println("Ranger health: " + ranger.getHealth());
+    }
+}
+```
+
+**Java - Interface**
+
+```Java
+
+```
 
 **C++ - Inheritance**
 
