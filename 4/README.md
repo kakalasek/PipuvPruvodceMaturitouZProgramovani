@@ -118,9 +118,81 @@ print(len(stack))
 ```
 
 **Python - Static methods**
+
+```Python
+    class Calculator:
+
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+    @staticmethod
+    def subtract(a, b):
+        return a - b
+
+    @staticmethod
+    def multiplicate(a, b):
+        return a * b
+
+    @staticmethod
+    def divide(a, b):
+        return a/b
+
+if __name__ == "__main__":
+    print(Calculator.add(2, 3))
+    print(Calculator.divide(15, 11))
+```
+
 **Python - Functions**
 
+```Python
+def multiple_wrapper(n):
+    
+    def inner_function():
+        return n * "O"
+
+    return inner_function
+
+def double_trouble(function):
+    
+    def wrapper():
+        return function() * 2
+    
+    return wrapper
+
+@double_trouble     # Python Decorator
+def say_hi():
+    return "Hello there\n"
+
+
+if __name__ == "__main__":
+    # Funkce je first class, lze ji libovolne ulozit do promenne a zachazet s ni
+    three_timer = multiple_wrapper(3)
+    print(three_timer())
+
+    print(say_hi())
+```
+
 **Java - Lambda**
+
+```Java
+package org.example;
+
+import java.util.Arrays;
+
+public class Main{
+    public static void main(String[] args) {
+        int nums[] = {1, 2, 3, 4, 5};
+
+        int newNums[] = Arrays.stream(nums).filter(i -> i % 2 == 0).map(i -> i * i).toArray();
+
+        for(int record : newNums){
+            System.out.println(record);
+        }
+    }
+}
+```
+
 **Java - Special methods .. except not at all**
 **Java - Static methods**
 **Java - Functions .. kind of**
