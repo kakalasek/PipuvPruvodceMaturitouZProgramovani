@@ -191,6 +191,26 @@ public class Main{
 }
 ```
 
+```Java
+public class Main{
+
+    @FunctionalInterface
+    static interface UniMath{
+        Integer operate(Integer x);
+    }
+
+    static void printResultOfMathematicalOperation(UniMath u, int t){
+        System.out.println(u.operate(t));
+    }
+
+    public static void main(String[] args) {
+        UniMath square = (x) -> x * x;
+
+        printResultOfMathematicalOperation(square, 5);
+    }
+}
+```
+
 **Java - Special methods .. except not at all**
 
 ```Java
