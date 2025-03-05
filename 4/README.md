@@ -176,8 +176,6 @@ if __name__ == "__main__":
 **Java - Lambda**
 
 ```Java
-package org.example;
-
 import java.util.Arrays;
 
 public class Main{
@@ -194,8 +192,89 @@ public class Main{
 ```
 
 **Java - Special methods .. except not at all**
+
+```Java
+public class Main{
+
+    public static class Person{
+
+        private String name;
+        private int id;
+
+        public Person(String name, int id){
+            this.name = name;
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        @Override
+        public String toString(){
+            return "My name is " + name + " and this is my id: " + id;
+        }
+
+        @Override
+        public boolean equals(Object o){
+            if(o == this) return true;
+            if(o == null) return false;
+            if(!(o instanceof Person)) return false;
+            Person person = (Person) o;
+            if (id == person.getId()) return true;
+            return false;
+        }
+
+        @Override
+        public int hashCode(){
+            return id;
+        }
+    }
+
+    public static void main(String[] args) {
+        Person p1 = new Person("Karel", 325132);
+        Person p2 = new Person("Pepa", 325132);
+        Person p3 = new Person("Karel", 521231);
+
+        System.out.println(p1.equals(p2));
+        System.out.println(p1.equals(p3));
+    }
+}
+```
+
 **Java - Static methods**
-**Java - Functions .. kind of**
+
+```Java
+public class Main{
+
+    public static class Test{
+
+        private static int numberOfInstances;
+
+        public static int getNumberOfInstances(){
+            return numberOfInstances;
+        }
+
+        public Test(){
+            numberOfInstances++;
+        }
+    }
+
+    public static void main(String[] args) {
+        Test t1 = new Test();
+
+        System.out.println(Test.getNumberOfInstances());
+
+        Test t2 = new Test();
+        
+        System.out.println(Test.getNumberOfInstances());
+
+        Test t3 = new Test();
+        
+        System.out.println(Test.getNumberOfInstances());
+    }
+}
+```
 
 **C++ - Lambda**
 **C++ - Special methods**
