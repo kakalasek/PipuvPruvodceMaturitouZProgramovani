@@ -246,10 +246,37 @@ print(P)
 **Python - Selection Sort**
 
 ```Python
+def swap(arr, i , j):
+    temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
 
+def selection_sort(arr):
+    for i in range(len(arr)):
+        index = i
+
+        for j in range(i+1, len(arr)):
+            if arr[j] < arr[index]:
+                index = j
+        
+        swap(arr, i, index)
+
+    return arr
+
+if __name__ == "__main__":
+    arr = [1235, 124, 5552 , 124, 664, 111, 4, 123, 3]
+
+    arr = selection_sort(arr)
+
+    print(arr)
 ```
 
 **Python - Insertion Sort**
+
+```Python
+
+```
+
 **Python - Merge Sort**
 **Python - Quick Sort**
 

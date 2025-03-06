@@ -297,9 +297,28 @@ public class Main{
 ```
 
 **C++ - Lambda**
+
+```C++
+
+```
+
 **C++ - Special methods**
+
+```C++
+
+```
+
 **C++ - Static methods**
+
+```C++
+
+```
+
 **C++ - Functions .. well, actually pointers**
+
+```C++
+
+```
 
 Materiály
 ---
