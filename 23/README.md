@@ -7,11 +7,31 @@ Povídání
 Ukázky kódu
 ---
 
-**Python - Data Structure Stuff**
+**Python - Ordering and multiple elements**
 
-**Java - Data Structure Stuff**
+```Python
 
-**C++ - Data Structure Stuff**
+```
+
+**Python - Idexing element keys**
+
+```Python
+
+```
+
+**Python - Hashing and equals**
+
+```Python
+
+```
+
+**Java - Ordering and multiple elements**
+**Java - Idexing element keys**
+**Java - Hashing and equals**
+
+**C++ - Ordering and multiple elements**
+**C++ - Idexing element keys**
+**C++ - Hashing and equals**
 
 Materiály
 ---
