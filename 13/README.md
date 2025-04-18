@@ -156,7 +156,43 @@ public class Axe implements Weapon{
 }
 ```
 
+**Flyweight**
+
+```Java
+
+```
+
+**Decorator**
+
+```Java
+
+```
+
+**Proxy**
+
+```Java
+
+```
+
 ### Behavioral Design Patterns
+
+**Command**
+
+```Java
+
+```
+
+**Strategy**
+
+```Java
+
+```
+
+**State**
+
+```Java
+
+```
 
 Materiály
 ---
