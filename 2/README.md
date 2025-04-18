@@ -213,12 +213,6 @@ print(_out)
 # Tato implementace samozrejmne neni idealni, protoze funkce dfs je zavisla na globalnich promennych, ale na demonstraci algoritmu nam staci
 ```
 
-**Python - Dijkstra**
-
-```Python
-
-```
-
 **Python - Bubble Sort**
 
 ```Python
@@ -246,25 +240,129 @@ print(P)
 **Python - Selection Sort**
 
 ```Python
+def swap(arr, i , j):
+    temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
 
+def selection_sort(arr):
+    for i in range(len(arr)):
+        index = i
+
+        for j in range(i+1, len(arr)):
+            if arr[j] < arr[index]:
+                index = j
+        
+        swap(arr, i, index)
+
+    return arr
+
+if __name__ == "__main__":
+    arr = [1235, 124, 5552 , 124, 664, 111, 4, 123, 3]
+
+    arr = selection_sort(arr)
+
+    print(arr)
 ```
 
 **Python - Insertion Sort**
+
+```Python
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        current = arr[i]
+        for j in range(i):
+            if arr[j] > current:
+                t = arr.pop(i)
+                arr.insert(j, t)
+                break
+
+    return arr
+
+if __name__ == "__main__":
+    t = [4, 1, 6, 34, 12, 8, 0, 5, 16]
+
+    t = insertion_sort(t)
+
+    print(t)
+```
+
 **Python - Merge Sort**
 **Python - Quick Sort**
 
 **Java - BFS**
 **Java - DFS**
-**Java - Dijkstra**
 **Java - Bubble Sort**
+
+```Java
+public class Main {
+
+        public static void bubbleSort(Comparable[] arr){
+            boolean next = true;
+
+            while(next){
+                next = false;
+                for(int i = 0; i < arr.length-1; i++){
+                    if(arr[i].compareTo(arr[i+1]) > 0){
+                        Comparable temp = arr[i];
+                        arr[i] = arr[i+1];
+                        arr[i+1] = temp;
+                        next = true;
+                    }
+                }
+            }
+
+        }
+
+        public static void main(String[] args) {
+            Integer arr[] = {3, 5, 6, 123, 6, 1, 11, 0, 5};
+
+            bubbleSort(arr);
+
+            for(Integer i : arr){
+                System.out.print(i +", ");
+            }
+        }
+    }
+```
+
 **Java - Selection Sort**
+
+```Java
+public class Main{
+
+    public static void selectionSort(Comparable[] arr){
+        for(int i = 0; i < arr.length; i++){
+            int min_index = i;
+
+            for(int j = i+1; j < arr.length; j++){
+                if(arr[j].compareTo(arr[min_index]) < 0) min_index = j;
+            }
+
+            Comparable temp = arr[i];
+            arr[i] = arr[min_index];
+            arr[min_index] = temp;
+        }
+    }
+
+        public static void main(String[] args) {
+            Integer[] arr = {3, 5, 6, 123, 6, 1, 11, 0, 5};
+
+            selectionSort(arr);
+
+            for(Integer i : arr){
+                System.out.print(i + ", ");
+            }
+        }
+}
+```
+
 **Java - Insertion Sort**
 **Java - Merge Sort**
 **Java - Quick Sort**
 
 **C++ - BFS**
 **C++ - DFS**
-**C++ - Dijkstra**
 **C++ - Bubble Sort**
 **C++ - Selection Sort**
 **C++ - Insertion Sort**

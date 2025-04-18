@@ -122,6 +122,10 @@ stars_if_odd(7)
 
 **Python - Measuring time and space complexity**
 
+```Python
+
+```
+
 ## Materiály
 
 Martin Mareš a Tomáš Valla - Průvodce labyrintem algoritmů - https://pruvodce.ucw.cz/static/pruvodce.pdf
