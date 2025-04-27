@@ -32,7 +32,9 @@ Skládá se z několika sprintů. Každý sprint je v podstatě jedna iterace. N
 Kdybych to měl shrnout, tak agilní způsob vývoje by se měl snažit aktivně komunikovat se zákazníkem, umět dobře reagovat na změny, soustředit se na rozvoj svých zaměstnanců i jako jednotlivců a podporovat efektivní komunikaci mezi nimi. Někdy lze pověřit i člověk funkcí tzv. agilního kouče. Ten má za úkol motivovat jednotlivé vývojářské týmy ke komunikaci, pomáhat řešit problémy a starat se o hladký průběh vývoje v těchto ohledech.             
 Základem agilním metodik je tzv. sprint. Sprint je časové obdoví, ve kterém má tým vykonat nějaký set práce. Mohou to být třeba tasky v softwaru, jakým může být třeba Clickup nebo Jira.
 
+![Scrum](scrum.jpg)
 
+Dostáváme se tím k jedné z agilních metodologií, která je často implementována, ke Scrumu. 
 
 Materiály
 ---
