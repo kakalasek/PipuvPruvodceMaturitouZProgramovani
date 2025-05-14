@@ -1,4 +1,4 @@
-Vlákna, Paralerní programování, Asynchronní metody, Concurrent design patterns
+Vlákna, Paralelní programování, Asynchronní metody, Concurrent design patterns
 ===
 
 Povídání
