@@ -93,14 +93,161 @@ Moderní plánovače proto využívají tzv. preemptivní multitasking. To je ty
 Vrátíme se trochu zpátky, k race conditions. Jak jim zabránit? Pomocí tzv. konkurentních design patternů. Prvním z nich, je tzv. binární zámek/mutex. Ten může nabývat dvou stavů, zamčený a odemčený. Můžeme pomocí něj zamknout nějaký zdroj. Proces, který k němu přistoupí jako první ho zamkne. Dokud ho zase neodemkne, ostatní procesy mají smůlu. Když k takovému zdroji budou chtít přistoupit, zablokují se, dokud k němu nebudou vpuštěni, tj. původní proces mutex odemkne. Ukážeme si příklad v Pythonu:
 
 ```Python
+import sys
+import threading
 
+shared_number = 10
+mutex_lock = threading.Lock()
+
+def add_to_number():
+    global shared_number
+
+    mutex_lock.acquire()
+
+    for i in range(10000):
+        shared_number += 1
+    print("The second thread has finished counting")
+
+    mutex_lock.release()
+
+t1 = threading.Thread(target=add_to_number)
+
+mutex_lock.acquire()
+
+t1.start()
+
+for i in range(10000):
+    shared_number += 1
+
+print("The first thread has finished counting, unlocking resources")
+
+mutex_lock.release()
+
+t1.join()
+
+print(shared_number)
 ```
 
+GIL v Pythonu brání vzniku race condition. Tak jsem to tímto příkladem malinko ochcal, aby bylo vidět, že zamkneme-li mutex, další vlákno začne přičítat až potom, co to první mutex uvolní. Metoda acquire je tudíž blokující, vlákno se na ní zasekne, dokud druhé vlákno mutex nepustí.
 Ve kvalitnějších jazycích, jakým je třeba Java, jsou tyto problémy řešeny mnohem elegantněji klíčovými slovy. U této příležitosti si také ukážeme, jak se vytváří nové vlákno v Javě. Java ale narozdíl od Pythonu GIL nemá, pod pláštíkem zkrátka funguje trochu jinak. Její vlákna tedy běží plně paraleleně.
 
 ```Java
+public class Main{
 
+    public static void main(String[] args) {
+        BigTask bigTask = new BigTask();
+        Thread t1 = new Thread(bigTask);
+        Thread t2 = new Thread(bigTask);
+        try{
+            t1.start();
+            t2.start();
+
+            t1.join();
+            t2.join();
+
+            System.out.println("This is our number: " + BigTask.k);
+        } catch (Exception e){
+            
+        }
+    }
+}
+
+public class BigTask implements Runnable{
+
+    public static int k = 10;
+
+    @Override
+    public void run() {
+        for(int i = 0; i < 10000; i++){
+            k++;
+        } 
+    }
+    
+}
 ```
+
+V javě máme dvě možnosti vytvoření nového vlákna. Oddědit třídu od třídy Thread, nebo implementovat interface Runnable. Můžeme si všimnout, že ve výše napsaném kódu vzniknou race conditions. Pokaždé nám vrátí jiné číslo. Paralelní vlákna se zkrátka neumí domluvit. Poupravíme teď tento kód tak, aby fungoval správně pomocí mutexového zámku.
+
+```Java
+public class Main{
+
+    public static void main(String[] args) {
+        BigTask bigTask = new BigTask();
+        Thread t1 = new Thread(bigTask);
+        Thread t2 = new Thread(bigTask);
+        try{
+            t1.start();
+            t2.start();
+
+            t1.join();
+            t2.join();
+
+            System.out.println("This is our number: " + BigTask.k);
+        } catch (Exception e){
+            
+        }
+    }
+}
+
+public class BigTask implements Runnable{
+
+    public static  int k = 10;
+    Object mutex = new Object();
+
+    @Override
+    public void run() {
+        for(int i = 0; i < 10000; i++){
+            synchronized(mutex){ 
+                k++;
+            }
+        } 
+    }
+    
+}
+```
+
+V javě to funguje trochu jinak, máme zde slovíčko *synchornized*. To dovede synchronizovat buď metodu, tedy ji zabezpečit mutexovým lockem, nebo nějaký block kódu. K zabezpečení bloku kódu je potřeba nějaký objekt, který bude jako mutex fungovat. Jak to funguje? Nu, alespoň co jsem se dočetl já, Java to má implementované tak, že každý objekt má v sobě lock. Takže můžeme použít libovolný objekt.           
+Takto vypadá využití binárního semaforu (mutexu) v C++:
+
+```C++
+#include <iostream>
+#include <thread>
+#include <mutex>
+
+using namespace std;
+
+mutex m;
+int i = 0;
+
+void call()
+{
+    m.lock();
+
+    cout << i << " Hi there" << endl;
+    i++;
+    
+    m.unlock();
+}
+
+int main(){
+
+    thread t1(call);
+    thread t2(call);
+
+    t1.join();
+    t2.join();
+
+    return 0;
+}
+```
+
+Existují ještě další dva paterny pro synchronizaci, semafor a monitor. Semafor je velmi podobný mutexu, mutex je vlastně jen binární semafor. Má však jeden zásadní rozdíl. Ke zdroji, který je chráněný mutexem, může přistoupit pouze jedno vlákno. Semafor dovoluje nastavit, kolik vláken může danou operaci provádět v jednu chvíli. Má tedy interní counter, každé další vlákno ho při přístupu sníží. Když se dostane na nulu, další přistupující vlákno se zasekne a čeká. Lze tímto způsobem třeba limitovat zdroje.               
+Monitor je trochu sporný. Podle učebnic by to měla být v podstatě abstraktní implementace mutexového locku. Jo, nic vám to neříká, mně také ne. V praxi záleží na programovacím jazyce. Třeba Java říká monitor zámku, který má každý objekt. Monitor je tam tedy v podstatě roven binárnímu semaforu. Zkuste zabrouzdat do literatury, zajímá-li vás to.                   
+Poslední, o čem si povíme, jsou asynchronní metody. Co znamená, že něco běží asynchronně? Nejlépe to uvedeme na příkladu. Máme nějakou dlouhou funkci a nechceme v našem kódu čekat, než doběhne. Voláme ji třeba v nějakém zaneprázdněném odbavovacím loopu, nebo nám nevadí, že její výsledek přijde až později. Uložíme ho tedy typicky do nějakého slibu. To je datová struktura, která, jakmile fce skončí, uloží její výsledek. Typicky jakmile potřebujeme tento výsledek, můžeme si o něj říct. Když ještě není, metoda je blokující a kód se nám sekne, dokud asynchronní metoda nevrátí.                  
+Asynchronní metody se hojně využívají např. v Pythonu, v Javascriptu, ale i ve všech ostatních jazycích. V podstatě je to nějaká procedura, která se spustí tak trochu bokem. Nebudu na to zde mít příklad, nicméně můžete se sami podívat na Async/Await třeba v Pythonu.                  
+Poslední věc, kterou zmíním, je návrhový vzor ThreadPool. To je specifický návrhový vzor, který se využívá u paralelního programování. Je to konstrukt, který má k dispozici několik vláken a frontu úkolů. Lze submitovat úkoly a vlákna si je postupně rozebírají a plní.
+
+![ThreadPool](thread_pool.png)
 
 Materiály
 ---
