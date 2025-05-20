@@ -78,7 +78,7 @@ V Pythonu takový algoritmus může vypadat třeba takhle:
 # Not the best example, since the method brute_force() is specifically designed for the case of four digits
 # But should be enough to demonstrate the concept
 
-correct_combination = [4, 1, 3, 7]     # We define the correct comobination  
+correct_combination = [4, 1, 1, 4]     # We define the correct comobination  
 
 # The method brute force tries every combination. Its time complexity grows exponentially with the number of digits
 def brute_force():
@@ -108,6 +108,24 @@ Prvním typem je typ P. P jako polynomiální. To jsou problémy, které jsme sc
 Uděláme si rychlou odbočku, abychom si vysvětlili, co to znamená deterministický a nedeterministický. Když budu parafrázovat Wikipedii, determinismus je filosofické přesvědčení, že každá událost nebo stav věcí je důsledkem předchozích událostí na principu kauzality a pevně daných zákonitosí. Co to ale znamená pro nás jako pro programátory? Že deterministické algoritmy pracují vždy naprosto stejně, ze stejného vstupu vždy vyjde stejný výstup. Když to ještě více zobecníme, deterministický algoritmus se dá zapsat jako nějaký konečný deterministický automat, tedy takový automat, který má v každou chvíli právě jeden stav. Nicméně k maturitě teorii automatů snad umět nemusíte.          
 Příklady deterministických algoritmů mohou být řadící algoritmy. Prvky listu vždy seřadí stejným způsobem, na výstupu bude seřazené pole.           
 Naproti tomu nedeterministický algoritmus může ze stejného vstupu vytvořit různé výstupy. Hezkým příkladem je metoda Monte Carlo. Řešíme-li problém touto metodou, náhodně vybereme ze stavového prostoru několik možností a z nich vybereme tu nejlepší, popř. se spokojíme s tím, že jsme zrovna správnou odpověď nevybrali. Takový algoritmus pokaždé vydá jiné výsledky, je nedeterministický, nelze odhadnout jeho výstup. Kdybychom si to opět převedli to teorie počítačových automatů, nedeterministický automat je takový automat, který se může v jednu chvíli nacházet v několika stavech a na konci vybere ten, který vyhovuje jeho koncovému stavu, nebo žádný.                
+
+```Python
+import random
+
+correct_combination = [4, 1, 1, 4]
+
+def monte_carlo(num_of_tries):
+    while num_of_tries > 0:
+        num_of_tries -= 1
+        combination = [random.randint(0, 9), random.randint(0, 9), random.randint(0, 9), random.randint(0, 9)]
+        if combination == correct_combination:
+            return "Success"
+    return "Failure"
+
+
+print(monte_carlo(5))
+```
+
 Dobrá, když jsme si teď osvětlili rozdíl mezi deterministikým a nedeterministickým algoritmem, můžeme se vráti k P vs NP problematice. Ještě jednou, P problém je tedy takový problém, který se dá vyřešit deterministickým strojem, algoritmem, v polynomiálním čase. Polynom je výraz např. tomto tvaru **n^7 + 4n^6 + 2n^4 + 20n + 3**. Toto by mohla být složitost nějakého algoritmu. Nicméně vypadá-li složitost takto, zpravidla se bere v potaz pouze nejvyšší mocnina, která má největší dopad na výsledek. Složitost takového algoritmu by tedy byla O(n^7). Jakýkoliv problém, který má podobnou složitost, tedy polynominální, x na něco, lze označit jako P problém.               
 P problémy umíme zpravidla řešit rychle, patří mezi ně třeba umocňování, zjištování, zda je číslo prvočíslo atd. Samozřejmě existují i P problémy se složitostí tak zlou, že ani ty nejsou řešitelné v rozumném čase, třeba n^10000000.                     
 Obecně se předpokládá, že P problémy jsou podmnožinou NP problémů. NP problémy jsou takové problémy, které umíme v polynominálním čase ověřit, nicméne už je v něm neumíme deterministicky řešit. Krásným příkladem je třeba sudoku. Počítač umí velmi rychle řešit sudoku o velikosti 3x3 nebo 5x5. Ale co teprve 10000x10000? To už nebude taková hračka. Nicméně zkotrolovat takové sudoku bude jedoduché, prostě spočteme, zda má každý sloupec a řádek stejný součet, to je lineární složitost, takže to bude hned.                    
@@ -124,21 +142,6 @@ Využil jsem něco, čemu se říká heuristika. Heuristika je nějaký předpok
 Ačkoliv si A* nebudeme programovat, můžeme si ho zkusit alespoň zhruba odvodit. Víme, že Dijkstrův algrotimus prohledává celý graf postupně. Kdybychom chtěli najít vzdálenost mezi dvěma konkrétními body, algoritmus bychom museli ukončit, jakmile by se dostal k druhému bodu. V tuto chvíli ale velmi pravděpodobně také prohledal valnou většinu našeho grafu. To je pomalé a zbytečné.               
 Jak bychom takový problém mohli vyřešit? Nu, představme si, že se chceme na mapě dostat z bodu A do bodu B. Nechceme přeci jet po cestě, která vede na druhou stranu. Musíme vymyslet nějakou heuristiku, pomocí které se bude moci algoritmus řídit a postupovat plus minus správným směrem. Na mapě můžeme zvolit třeba vzdálenost vzdušnou čarou. Algoritmus se tedy nebude řídit jen hodnotami hran, ale také jakousi přidanou hodnotou každého uzlu. Tato přidaná hodnota bude větší, bude-li úplně špatným směrem, a menší, když se budeme přibližovat k cíli.                
 Algoritmus se tedy bude řídit naší heuristikou. Zároveň také bude jen tak dobrý, jak dobrá je naše heuristika. Jak si ale můžeme být jisti, že takový algoritmus opravdu našel tu nejkratší cestu? Nu, v realitě využívá A* něco, co se nazývá potenciálová redukce. Pokud vás to zajímá, můžete se podívat do Průvodce labyrintem algorimů nebo na nějaké šikovné video, já se tentokrát zdržím vysvětlování.
-
-Ukázky kódu
----
-
-
-**Python - Brute Force**
-
-
-
-**Python - Monte Carlo**
-
-**Java - Rekurzivní umocňování**
-**Java - Brute Force**
-**Java - Monte Carlo**
-
 
 Materiály
 ---
