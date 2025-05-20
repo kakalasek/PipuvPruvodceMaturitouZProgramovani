@@ -10,11 +10,90 @@ Nicméně právě tento tríček nám dovoluje vytvářet velmi zajímavé algor
 Každá rekurze potřebuje nějakou podmínku, pod kterou se zastaví a místo dalšího volání sama sebe, fce vrátí konkrétní hodnotu.              
 Z první otázky víme, že existuje zásobník volání metod (Call Stack). Každé další rekurzivní volání je přidání na call stack a shora vykonáváno. Takže když poslední metoda vrátí jedničku, zpracuje ji metoda, která ji volala, a její výsledek pak zpracuje metoda, která ji zavolala a tak dále a tak dále, než se dostaneme k metodě, která nebyla zavolána rekurzivně, ale byla zavolána někde v hlavním kódu a ta vrátí konečný výsledek.              
 Rekurzivní algoritmy často mívají specifické vlastnosti nebo nám dovedou zjednodušit či zrychlit řešení problému. Jednou evidentní nevýhodou je velká spotřeba paměti. Každé další volání je přidáno na vrchol zásobníku. Pokud se opravdu hodně zanoříme, může nám také jednoduše přetéct (Stack Overflow).            
+Takhle může vypadat jednoduché rekurzivní umocňování v Pythonu:
+
+```Python
+# Vytvorime funkci power(x, n), ktera vola sama sebe, aby dosahla umocneni cisla
+def power(x: int, n: int) -> int:
+    if n == 0:  # Kazda rekurze potrebuje podminku, pri ktere uz nespousti sama sebe, ale vrati konkretni hodnotu
+        return 1    # Cokoliv na nultou je jedna, takze muzeme smele vratit jednicku
+    
+    return x * power(x, n-1)    # Fce vraci cislo x vynasobene o jedna nizsi mocninou cisla x
+
+# Vypiseme vysledky
+print(power(3, 4))
+```
+
+Takhle v Javě:
+
+```Java
+public class Main{
+
+    public static int on_power(int num, int exp){
+        if(exp <= 0){
+            return 1;
+        }
+        return num * on_power(num, exp-1);
+    }
+
+    public static void main(String[] args) {
+        int i = 5;
+        System.out.println(on_power(i, 5));
+    }
+}
+```
+
+A takhle by to mohlo vypadat v C++:
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+int on_pow(int num, int exp){
+    if(exp <= 0){
+        return 1;
+    }
+    return num * on_pow(num, exp-1);
+}
+
+int main(){
+    int i = 13;
+
+    cout << on_pow(i, 3) << endl;
+
+    return 0;
+}
+```
+
+
+Podíváme se na jednoduchý problém. Potřebujeme zjistit heslo od zámku sousedovi garáže. Neptejte se mě proč, prostě to potřebuji vědět. Je několik možností, jak se s takovým problémem vypořádat.          
 
 ![Lock](lock.avif)
 
-Podíváme se na jednoduchý problém. Potřebujeme zjistit heslo od zámku sousedovi garáže. Neptejte se mě proč, prostě to potřebuji vědět. Je několik možností, jak se s takovým problémem vypořádat.          
 Jedním z nich, který asi napadne nás všechny, je, že člověk zkrátka vyzkouší všechny kombinace, jedna přeci musí fungovat. Tomuto přístupu se říká Brute Force, hrubá síla, mělo by to být docela intuitivní pojmenování.           
+V Pythonu takový algoritmus může vypadat třeba takhle:
+
+```Python
+# Not the best example, since the method brute_force() is specifically designed for the case of four digits
+# But should be enough to demonstrate the concept
+
+correct_combination = [4, 1, 3, 7]     # We define the correct comobination  
+
+# The method brute force tries every combination. Its time complexity grows exponentially with the number of digits
+def brute_force():
+    for i in range(0, 10):
+        for j in range(0, 10):
+            for k in range(0, 10):
+                for l in range(0, 10):
+                    attempt = [i, j, k, l]
+                    if(attempt == correct_combination): # Correct combination found
+                        return attempt
+
+# Print out the results 
+print(brute_force())
+```
+
 No, ačkoliv tento přístup naprosto bez pochyby funguje, soused má na zámku šestimístný kód. Než to vyzkouším všechno, přijedou benga a mám po prdeli.           
 V tomto konkrétním případě by bylo potřeba vyzkoušet 10^6 kombinací zámku. Máme šest pozic, na každé může být jedno z deseti čísel, čísla se mohou opakovat, to je variace s opakováním, takže n^k různých kombinací.           
 Všechny možné kombinace nazýváme stavovým prostorem problému. Jo, když si na internetu najdete definici stavového prostoru, vyjede vám něco neskutečně složitého a zvláštního a budete tomu prd rozumět. Já jsem v praxi vždy nazýval množinu kombinací, ze kterých vybíráme řešení problému, stavovým prostorem.               
@@ -49,51 +128,16 @@ Algoritmus se tedy bude řídit naší heuristikou. Zároveň také bude jen tak
 Ukázky kódu
 ---
 
-**Python - Rekurzivní umocňování**
-
-```Python
-# Vytvorime funkci power(x, n), ktera vola sama sebe, aby dosahla umocneni cisla
-def power(x: int, n: int) -> int:
-    if n == 0:  # Kazda rekurze potrebuje podminku, pri ktere uz nespousti sama sebe, ale vrati konkretni hodnotu
-        return 1    # Cokoliv na nultou je jedna, takze muzeme smele vratit jednicku
-    
-    return x * power(x, n-1)    # Fce vraci cislo x vynasobene o jedna nizsi mocninou cisla x
-
-# Vypiseme vysledky
-print(power(3, 4))
-```
 
 **Python - Brute Force**
 
-```Python
-# Not the best example, since the method brute_force() is specifically designed for the case of four digits
-# But should be enough to demonstrate the concept
 
-correct_combination = [4, 1, 3, 7]     # We define the correct comobination  
-
-# The method brute force tries every combination. Its time complexity grows exponentially with the number of digits
-def brute_force():
-    for i in range(0, 10):
-        for j in range(0, 10):
-            for k in range(0, 10):
-                for l in range(0, 10):
-                    attempt = [i, j, k, l]
-                    if(attempt == correct_combination): # Correct combination found
-                        return attempt
-
-# Print out the results 
-print(brute_force())
-```
 
 **Python - Monte Carlo**
 
 **Java - Rekurzivní umocňování**
 **Java - Brute Force**
 **Java - Monte Carlo**
-
-**C++ - Rekurzivní umocňování**
-**C++ - Brute Force**
-**C++ - Monte Carlo**
 
 
 Materiály
