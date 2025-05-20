@@ -58,68 +58,8 @@ Prvním algoritmem je prohledávání do šířky, anglicky BFS (Breadth First S
 Algrotimu BFS lze také využít při zjišťování spojitosti grafu. Prostě si vybereme nějaký bod a pokud jsme pomocí hledání do šířky navštívili všechny ostatní vrcholy, graf je spojitý. Pokud ne, graf spojitý není. Algoritmus, kterým lze získat popsané segmenty grafu, je-li nespojitý, můžeme najít v Průvodci.                 
 Tak a teď to hlavní. Co vlastně tímto prohledáváním získáme? Prohledáváním do šířky lze zjistit především dvě věci. Za prvé, v závislosti na našem počátečním uzlu, můžeme vrcholy označit hloubkou na základě toho, jak dlouho jsme se k nim dostávali. Můžete si graf představit jako cibuli, má vrstvy.              
 K čemu je to dobré? Můžeme tak odhadovat, jakou úlohu plní jednotlivé hrany v grafu. Víme-li třeba, že bod i a j tvoří hranu, můžeme v závisloti na tom, v jaké hloubce vůči sobě leží, říct, zda se jedná o hranu zpětnou (vede do některé z minulých vrstev), hranu příčnou (je v rámci stejné vrstvy), stromovou nebo dopřednou. Detaily k tomu, co které hrana znamená, si můžete buď odvodit, nebo najít. K maturitě snad takové detaily potřebovat nebudete.              
-Druhým užitečným výstupem BFS je list nejkratších cest. Ten nám jednoduše říká, jak se nejkratší cestou dostat ke všem uzlům. Opět v závisloti na tom, co jsme zvolili jako uzel počáteční.         
-
-Druhý algoritmus je DFS (Depth First Search), čili prohledávání do hloubky. Trochu to zrychlíme, podívejte se na gif, tam je velmi pěkně vidět, jak tento algoritmus postupuje, já si alespoň ušetřím popisování.               
-DFS využívá ke svému fungování rekurzi. Otevře nějaký vrchol, začne rekurzivně prohledávat jeho následovníky. Paměťová a časová složitost je podobně jako u BFS lineární. V rámci časové složitosti závisí na počtu uzlů a hran. U paměťové potřebuje dost na pomocná pole a zásobník rekurze. Ano, v postatě jen parafrázuji Průvodce, ale kdo z vás se do něj opravdu plánuje podívat? Myslel jsem si to.      
-
-![Types Of Edges](types_of_edges.png)
-
-Původně jsem se tomu chtěl vyhnout, ale vzhledem k tomu, že výsledkem algoritmu DFS je dvojice polí, díky kterým můžeme docela elegantně rozlišit typy jednotlivých hran, představíme si konkrétně, jak vypadají jednotlivé možnosti. V průběhu běhu algoritmu si zapisujeme, kdy jsme vrchol otevřeli a kdy jsme ho zavřeli. Když se pak podíváme na tyto dvě čísla, můžeme na základě jejich závisloti poznat, o jakou hranu se jedná.            
-Pro ty, kteří mají raději abstraktnější představy. Můžete si představit otevření vrcholu jako zapsání levé strany závorky. Zavření vrcholu naopak jako uzavření závorky. Na základě toho, jak jsou vůči sobě závorky postaveny, můžeme obdobně rozhodnout, o kterou z hran se jedná.            
-Algoritmus vždy vezme novou hrany, která vychází z aktuálního vrcholu. Vede-li tato hrana do nového vrcholu (tj. neobjeveného, fresh), nazýváme ji stromovou. Algoritmus pak postoupí dále do hloubky a novým aktuálním vrcholem se stane koncový vrchol této hrany. Algoritmus tedy takto vytvoří stromový graf s kořenem v našem počátečním vrcholu.  
-Pokud by algoritmus vzal novou hranu, jejíž koncový vrchol by byl ve stavu open, algoritmus tuto hranu přeskočí. Nazýváme ji zpětnou hranou. Vede ve stromu směrem nazpátek.        
-Dále může být vybraný vrchol další hrany ve stavu closed. Řekněme, že jsme si vrcholy označili čísly. Pokud vede tato hrana do vrcholy s vyšším číslem, než je to současné, jedná se o hranu tzv. dopřednou. Vede dál v téže větvi stromu. Pokud vede do vrcholu s nižším číslem, jedná se o hranu příčnou. Ta vede do vedlejší, již dříve opuštěné větvě stromu.           
-Pro maturitu by vám měla stačit jen přibližná představa, popř. znalost implementace a fungování algoritmu. Další na řadě jsou algoritmy pro nalezení nejkratší cesty.
-
-![Dijkstra](dijkstra.gif)
-
-Asi nejznáměnjším a zároveň jediným algoritmem, na který se v této kategorii podíváme, je Dijkstrův algoritmus. Budeme brát v potaz pouze jeho verzi bez využití haldy, ať si to neděláme zbytečně složité. Tato verze je sice pomalejší, ale čas O(n^2) je pro husté grafy docela dobrý.           
-Nejlpeší asi bude, podívat se na video, ale zkusím vám tu v rychlosti osvětlit, jak tento algoritmus funguje. Určitě si vzpomenete, že jedním z výsledků BFS je list nejkratších cest. Nicméně BFS neumí počítat s ohodnocenými hranami. Mohli bychom si každou hranu rozdělit na tolik menších hran, jako je její ohodnocení. Nicméně to by bylo neskutečně neefektivní. Dijkstrův algoritmus je vlastně takové šikovné rozšíření BFS tak, že dovede pracovat s ohodnocenými hranami.              
-Na začátku opět musíme mít nějaký vrchol, ze kterého začneme hledat. Uděláme si pomocný list, který bude ke každému uzlu držet číslo, jež bude označovat aktuální nejkratší vzdálenost. Opět budeme mít tři stavy vrcholů. Nenalezený, těm vzdálenost nastavíme na kladné nekonečno, nebo nějakou vážně vysokou hodnotu. Otevřeny a uzavřený, to je analogické k BFS.               
-Kromě pomocné tabulky vzáleností chceme také nějaký výstup. Tím bude, stejně jako v případě BFS, list předchůdců, tedy vrcholů, přes které se můžeme nejkratší cestou dostat do určitého vrcholu.               
-Zůstane-li nějaký vrchol neobjevený, jeho vzdálenost zůstane na kladném nekonečnu, zkrátka se k němu nedá dostat.           
-Algrotimus se nejdříve chová naprosto stejně, jako prohledávání do šířky. Prohledá všechny vrcholy, které sousedí s vrcholem, jenž jsme si zvolili jako počáteční. Pro každý z nich si zapíše vzdálenost. Následně, a teď je to důležité, se vydá do vrcholu, který je nejblíže. V něm se proces opakuje. Prohledá všechny jeho sousedy, zapíše si vzdálenosti a vrchol uzavře. Následně opět z otevřených vrcholů vybere ten, který má nejmenší vzdálenost od počátečního vrcholu. Pro něj provede to samé a tak pořád dokola. Jednoduché, že? A velmi efektivní.              
-Kdyby vás zajímalo praktické využití a nevěřili jste mi, že to je v podstatě všude, tak třeba OSPF (Open Shortest Path First), tedy protokol pro dynamické routování, využívá právě Dijkstrův algorimus k nalezení nejkratší cesty.
-
-Poslední část otázky je nazvaná jako řazení. Chápu to tak, že se jedná o třízení pole prvků pomocí různých algoritmů. Algoritmů na tento problém máme opravdu hodně. My si tu zmíníme jen ty nejznámější, o kterých jsme si říkali ve škole. Kdyby vás toto téma zajímalo více, můžete prošmejdit internet. Třeba takový heap sort, který zde probírat nebudeme, je docela zajímavý algoritmus.                 
-Začneme třemi jednoduchými a intuitivními algoritmy. Jsou krátké, rychlé na implementaci a svou práci splní. Nicméně všechny mají jeden menší nešvar. Jejich časová složitost je O(n^2) o moc lepší výsledky z nich ve většině případů nevytřískáme. Pro větší soubory dat se tedy zpravidla nehodí.            
-Poslední věc, kterou se hodí poznamenat. Při řazení rozhodně nemusíme nutně pracovat s čísly. Můžeme klidně pracovat i s objekty, nic nám nebrání. Stačí si nastavit podmínky, na základě kterých můžeme objekty porovnat. Nicméně my to pro jednodušší pochopení budeme předpokládat, že třídíme čísla podle velikosti od nejmenšího po nejvetší.
-
-Dalším algoritmem pro nalezení nejkratší cesty je např. A*. Na tento algrotimus se podíváme v jiné otázce, protože má co dočinění s heuristikami, které se v této maturitní otázce neobjevují.
-
-![Bubble Sort](bubble_sort.gif)
-
-Začneme nám dobře známým bublinkovým tříděním (Bubble Sort). Na gifu výše můžete vidět, jak asi funguje. Jednoduše procházíme pole a vždy koukáme na dva vedle sebe ležící prvky a pokud je ten napravo menší, prohodíme je. Takhle nám velká čísla "probublají" doprava. Neupravená verze algoritmu projde pole vždy opravdu n^2 krát. Můžeme ho malinko zrychlit tak, že po každém průchodu polem zkontroluje, zda již není sezařené a v takovém případě skončí.
-
-![Selection Sort](selection_sort.gif)
-
-Trochu zajímavější algoritmus než bublinkové třídění je třídění výběrem (Selection Sort). Nicméně v rámci efektivity zpravidla stejně otřesný. Nad tímto textem je moc hezká animace tohoto řazení. Je to jednoduché. Algoritmus vždy projde pole, vybere nejmenší prvek a zařadí ho na začátek. Pak opět projde pole (bez toho zařazeného prvku samozřejmě), vybere nejmenší prvek, zařadí ho za první nejmenší prvek a proces se znovu opakuje, dokud není pole seřazené. 
-
-![Insertion Sort](insertion_sort.gif)
-
-Třídění vkládáním také stojí za zmínku (Insertion Sort). Jen tak pro zajímavost, v Průvodci je Selection sort v jednom případě nazván jako Insertion Sort, to je prosím pravděpodobně nějaké nedopatření. Nicméně tyto dva algoritmy jsou si určitým způsobem podobné.          
-Třídění vkládáním vždy vezme další prvek v poli a zařadí ho na místo mezi ostatní prvky, který již seřadilo, tak, aby tato část zůstala seřazená. Takže levá část pole je vždy seřazená a my do ní jen postupně třídíme prvky zprava. Ostaně to můžete vidět na obrázku.            
-Ačkoliv to zní kůl a všechno, stále je to v rámci rychlosti totální bída, takže jedeme dál. 
-
-![Merge Sort](merge_sort.gif)
-
-Tady už se dostáváme ke značně zajímavějšímu algoritmu, třídění sléváním (Merge Sort). Jeho složitost už je značně lepší O(n*log(n)).               
-Funguje zhruba následovně. Nejdříve si rozdělíme pole na jednotlivé prvky. Pak začneme jednotlivé prvky slévat. Při každém slévání je výsledné pole setřízené. Nu, tímto způsobem nakonec slijeme celé pole zpět.       
-Algoritmus se běžně implementuje rekurzivně.
-
-![Quick Sort](quick_sort.gif)
-
-Tak, poslední algoritmus, který si zde ukážeme, je Quick Sort. Quick Sort je to proto, že je vskutku rychlý. Měl by v průměru být rychlejší, než třídění sléváním, ačkoliv má stejnou časovou složitost. Proč? Nu, v praxi zkrátka funguje lépe. Nicméně při velmi špatné volbě pivota může teoreticky běžet i déle, a to v čase O(n^2).            
-Takže, zkusíme si teď nějak vysvětlit, jak to fachá. Stejně jako merge sort, i quick sort je rekurzivní algoritmus. Má ale jeden hlavní rozdíl, který se odráží na paměťové složitosti. Nevytváří nová pole, ale řadí původní pole tzv. na místě.           
-Na začátku každé iterace si musíme zvolit nějakého pivota. To můžeme udělat na základě nějakého předpokladu, nebo zkrátka náhodně. Po zvolení pivota dáme všechny prvky, které jsou větší než pivot, na jednu stranu a prvky, které jsou menší, na tu druhou. Poté si vezmeme levou a pravou část pole od pivota a provedeme s ní obdobný proces. Zvolíme pivota, rozdělíme prvky. Na konci bychom měli dostat perfektně seřazené pole.
-
-Ukázky kódu
----
-
-Pozn.: Vysvětlení kódu bude zpravidla jen u jednoho z programovacích jazyků. Šetří mi to práci a u všech jazyků bude vypadat algoritmus analogicky.
-
-**Python - BFS**
+Druhým užitečným výstupem BFS je list nejkratších cest. Ten nám jednoduše říká, jak se nejkratší cestou dostat ke všem uzlům. Opět v závisloti na tom, co jsme zvolili jako uzel počáteční.                 
+Takhle vypadá implementace BFS v Pythonu:
 
 ```Python
 G = {1: [2,4], 2:[3,5], 3: [6], 4: [3], 5: [3,6], 6: [7], 7: []}    # Nas graf reprezentovan listem sousedu. Je to orientovany neoceneny graf
@@ -163,7 +103,9 @@ print(D)
 print(P) 
 ```
 
-**Python - DFS**
+Druhý algoritmus je DFS (Depth First Search), čili prohledávání do hloubky. Trochu to zrychlíme, podívejte se na gif, tam je velmi pěkně vidět, jak tento algoritmus postupuje, já si alespoň ušetřím popisování.               
+DFS využívá ke svému fungování rekurzi. Otevře nějaký vrchol, začne rekurzivně prohledávat jeho následovníky. Paměťová a časová složitost je podobně jako u BFS lineární. V rámci časové složitosti závisí na počtu uzlů a hran. U paměťové potřebuje dost na pomocná pole a zásobník rekurze. Ano, v postatě jen parafrázuji Průvodce, ale kdo z vás se do něj opravdu plánuje podívat? Myslel jsem si to.                 
+Implementace DFS v Pythonu může vypadat třeba takto:
 
 ```Python
 G = {1: [2,4], 2:[3,5], 3: [6], 4: [3], 5: [3,6], 6: [7], 7: []}    # Nas graf reprezentovan listem sousedu. Je to orientovany neoceneny graf
@@ -213,7 +155,35 @@ print(_out)
 # Tato implementace samozrejmne neni idealni, protoze funkce dfs je zavisla na globalnich promennych, ale na demonstraci algoritmu nam staci
 ```
 
-**Python - Bubble Sort**
+![Types Of Edges](types_of_edges.png)
+
+Původně jsem se tomu chtěl vyhnout, ale vzhledem k tomu, že výsledkem algoritmu DFS je dvojice polí, díky kterým můžeme docela elegantně rozlišit typy jednotlivých hran, představíme si konkrétně, jak vypadají jednotlivé možnosti. V průběhu běhu algoritmu si zapisujeme, kdy jsme vrchol otevřeli a kdy jsme ho zavřeli. Když se pak podíváme na tyto dvě čísla, můžeme na základě jejich závisloti poznat, o jakou hranu se jedná.            
+Pro ty, kteří mají raději abstraktnější představy. Můžete si představit otevření vrcholu jako zapsání levé strany závorky. Zavření vrcholu naopak jako uzavření závorky. Na základě toho, jak jsou vůči sobě závorky postaveny, můžeme obdobně rozhodnout, o kterou z hran se jedná.            
+Algoritmus vždy vezme novou hrany, která vychází z aktuálního vrcholu. Vede-li tato hrana do nového vrcholu (tj. neobjeveného, fresh), nazýváme ji stromovou. Algoritmus pak postoupí dále do hloubky a novým aktuálním vrcholem se stane koncový vrchol této hrany. Algoritmus tedy takto vytvoří stromový graf s kořenem v našem počátečním vrcholu.  
+Pokud by algoritmus vzal novou hranu, jejíž koncový vrchol by byl ve stavu open, algoritmus tuto hranu přeskočí. Nazýváme ji zpětnou hranou. Vede ve stromu směrem nazpátek.        
+Dále může být vybraný vrchol další hrany ve stavu closed. Řekněme, že jsme si vrcholy označili čísly. Pokud vede tato hrana do vrcholy s vyšším číslem, než je to současné, jedná se o hranu tzv. dopřednou. Vede dál v téže větvi stromu. Pokud vede do vrcholu s nižším číslem, jedná se o hranu příčnou. Ta vede do vedlejší, již dříve opuštěné větvě stromu.           
+Pro maturitu by vám měla stačit jen přibližná představa, popř. znalost implementace a fungování algoritmu. Další na řadě jsou algoritmy pro nalezení nejkratší cesty.
+
+![Dijkstra](dijkstra.gif)
+
+Asi nejznáměnjším a zároveň jediným algoritmem, na který se v této kategorii podíváme, je Dijkstrův algoritmus. Budeme brát v potaz pouze jeho verzi bez využití haldy, ať si to neděláme zbytečně složité. Tato verze je sice pomalejší, ale čas O(n^2) je pro husté grafy docela dobrý.           
+Nejlpeší asi bude, podívat se na video, ale zkusím vám tu v rychlosti osvětlit, jak tento algoritmus funguje. Určitě si vzpomenete, že jedním z výsledků BFS je list nejkratších cest. Nicméně BFS neumí počítat s ohodnocenými hranami. Mohli bychom si každou hranu rozdělit na tolik menších hran, jako je její ohodnocení. Nicméně to by bylo neskutečně neefektivní. Dijkstrův algoritmus je vlastně takové šikovné rozšíření BFS tak, že dovede pracovat s ohodnocenými hranami.              
+Na začátku opět musíme mít nějaký vrchol, ze kterého začneme hledat. Uděláme si pomocný list, který bude ke každému uzlu držet číslo, jež bude označovat aktuální nejkratší vzdálenost. Opět budeme mít tři stavy vrcholů. Nenalezený, těm vzdálenost nastavíme na kladné nekonečno, nebo nějakou vážně vysokou hodnotu. Otevřeny a uzavřený, to je analogické k BFS.               
+Kromě pomocné tabulky vzáleností chceme také nějaký výstup. Tím bude, stejně jako v případě BFS, list předchůdců, tedy vrcholů, přes které se můžeme nejkratší cestou dostat do určitého vrcholu.               
+Zůstane-li nějaký vrchol neobjevený, jeho vzdálenost zůstane na kladném nekonečnu, zkrátka se k němu nedá dostat.           
+Algrotimus se nejdříve chová naprosto stejně, jako prohledávání do šířky. Prohledá všechny vrcholy, které sousedí s vrcholem, jenž jsme si zvolili jako počáteční. Pro každý z nich si zapíše vzdálenost. Následně, a teď je to důležité, se vydá do vrcholu, který je nejblíže. V něm se proces opakuje. Prohledá všechny jeho sousedy, zapíše si vzdálenosti a vrchol uzavře. Následně opět z otevřených vrcholů vybere ten, který má nejmenší vzdálenost od počátečního vrcholu. Pro něj provede to samé a tak pořád dokola. Jednoduché, že? A velmi efektivní.              
+Kdyby vás zajímalo praktické využití a nevěřili jste mi, že to je v podstatě všude, tak třeba OSPF (Open Shortest Path First), tedy protokol pro dynamické routování, využívá právě Dijkstrův algorimus k nalezení nejkratší cesty.
+
+Poslední část otázky je nazvaná jako řazení. Chápu to tak, že se jedná o třízení pole prvků pomocí různých algoritmů. Algoritmů na tento problém máme opravdu hodně. My si tu zmíníme jen ty nejznámější, o kterých jsme si říkali ve škole. Kdyby vás toto téma zajímalo více, můžete prošmejdit internet. Třeba takový heap sort, který zde probírat nebudeme, je docela zajímavý algoritmus.                 
+Začneme třemi jednoduchými a intuitivními algoritmy. Jsou krátké, rychlé na implementaci a svou práci splní. Nicméně všechny mají jeden menší nešvar. Jejich časová složitost je O(n^2) o moc lepší výsledky z nich ve většině případů nevytřískáme. Pro větší soubory dat se tedy zpravidla nehodí.            
+Poslední věc, kterou se hodí poznamenat. Při řazení rozhodně nemusíme nutně pracovat s čísly. Můžeme klidně pracovat i s objekty, nic nám nebrání. Stačí si nastavit podmínky, na základě kterých můžeme objekty porovnat. Nicméně my to pro jednodušší pochopení budeme předpokládat, že třídíme čísla podle velikosti od nejmenšího po nejvetší.
+
+Dalším algoritmem pro nalezení nejkratší cesty je např. A*. Na tento algrotimus se podíváme v jiné otázce, protože má co dočinění s heuristikami, které se v této maturitní otázce neobjevují.
+
+![Bubble Sort](bubble_sort.gif)
+
+Začneme nám dobře známým bublinkovým tříděním (Bubble Sort). Na gifu výše můžete vidět, jak asi funguje. Jednoduše procházíme pole a vždy koukáme na dva vedle sebe ležící prvky a pokud je ten napravo menší, prohodíme je. Takhle nám velká čísla "probublají" doprava. Neupravená verze algoritmu projde pole vždy opravdu n^2 krát. Můžeme ho malinko zrychlit tak, že po každém průchodu polem zkontroluje, zda již není sezařené a v takovém případě skončí.                  
+Takto může vypadat implementace v Pythonu:
 
 ```Python
 P = [352, 156364, 11, 34241, 123, 523523, 1555, 133, 1341, 5667, 1, 444, 14]    # Nase nesetridene pole
@@ -237,62 +207,7 @@ while _continue:
 print(P)
 ```
 
-**Python - Selection Sort**
-
-```Python
-def swap(arr, i , j):
-    temp = arr[i]
-    arr[i] = arr[j]
-    arr[j] = temp
-
-def selection_sort(arr):
-    for i in range(len(arr)):
-        index = i
-
-        for j in range(i+1, len(arr)):
-            if arr[j] < arr[index]:
-                index = j
-        
-        swap(arr, i, index)
-
-    return arr
-
-if __name__ == "__main__":
-    arr = [1235, 124, 5552 , 124, 664, 111, 4, 123, 3]
-
-    arr = selection_sort(arr)
-
-    print(arr)
-```
-
-**Python - Insertion Sort**
-
-```Python
-def insertion_sort(arr):
-    for i in range(1, len(arr)):
-        current = arr[i]
-        for j in range(i):
-            if arr[j] > current:
-                t = arr.pop(i)
-                arr.insert(j, t)
-                break
-
-    return arr
-
-if __name__ == "__main__":
-    t = [4, 1, 6, 34, 12, 8, 0, 5, 16]
-
-    t = insertion_sort(t)
-
-    print(t)
-```
-
-**Python - Merge Sort**
-**Python - Quick Sort**
-
-**Java - BFS**
-**Java - DFS**
-**Java - Bubble Sort**
+A takto může vypadat implementace v Jave. Využívám interfacu Comparable. Tím bych rád ukázal, že nemusíme řadit jen čísla, ale cokoliv, u čeho jsme schopni nadefinovat nějakou vzájemnou závislost.
 
 ```Java
 public class Main {
@@ -326,7 +241,36 @@ public class Main {
     }
 ```
 
-**Java - Selection Sort**
+![Selection Sort](selection_sort.gif)
+
+Trochu zajímavější algoritmus než bublinkové třídění je třídění výběrem (Selection Sort). Nicméně v rámci efektivity zpravidla stejně otřesný. Nad tímto textem je moc hezká animace tohoto řazení. Je to jednoduché. Algoritmus vždy projde pole, vybere nejmenší prvek a zařadí ho na začátek. Pak opět projde pole (bez toho zařazeného prvku samozřejmě), vybere nejmenší prvek, zařadí ho za první nejmenší prvek a proces se znovu opakuje, dokud není pole seřazené.                     
+Tady máte pro ilustraci opět implementaci v Pythonu a v Javě.       
+
+```Python
+def swap(arr, i , j):
+    temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+
+def selection_sort(arr):
+    for i in range(len(arr)):
+        index = i
+
+        for j in range(i+1, len(arr)):
+            if arr[j] < arr[index]:
+                index = j
+        
+        swap(arr, i, index)
+
+    return arr
+
+if __name__ == "__main__":
+    arr = [1235, 124, 5552 , 124, 664, 111, 4, 123, 3]
+
+    arr = selection_sort(arr)
+
+    print(arr)
+```
 
 ```Java
 public class Main{
@@ -356,6 +300,49 @@ public class Main{
         }
 }
 ```
+
+![Insertion Sort](insertion_sort.gif)
+
+Třídění vkládáním také stojí za zmínku (Insertion Sort). Jen tak pro zajímavost, v Průvodci je Selection sort v jednom případě nazván jako Insertion Sort, to je prosím pravděpodobně nějaké nedopatření. Nicméně tyto dva algoritmy jsou si určitým způsobem podobné.          
+Třídění vkládáním vždy vezme další prvek v poli a zařadí ho na místo mezi ostatní prvky, který již seřadilo, tak, aby tato část zůstala seřazená. Takže levá část pole je vždy seřazená a my do ní jen postupně třídíme prvky zprava. Ostaně to můžete vidět na obrázku.            
+Ačkoliv to zní kůl a všechno, stále je to v rámci rychlosti totální bída, takže jedeme dál.                     
+Opět vzhled v Pythonu a v Javě.                 
+
+```Python
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        current = arr[i]
+        for j in range(i):
+            if arr[j] > current:
+                t = arr.pop(i)
+                arr.insert(j, t)
+                break
+
+    return arr
+
+if __name__ == "__main__":
+    t = [4, 1, 6, 34, 12, 8, 0, 5, 16]
+
+    t = insertion_sort(t)
+
+    print(t)
+```
+
+```Java
+
+```
+
+![Merge Sort](merge_sort.gif)
+
+Tady už se dostáváme ke značně zajímavějšímu algoritmu, třídění sléváním (Merge Sort). Jeho složitost už je značně lepší O(n*log(n)).               
+Funguje zhruba následovně. Nejdříve si rozdělíme pole na jednotlivé prvky. Pak začneme jednotlivé prvky slévat. Při každém slévání je výsledné pole setřízené. Nu, tímto způsobem nakonec slijeme celé pole zpět.       
+Algoritmus se běžně implementuje rekurzivně.
+
+![Quick Sort](quick_sort.gif)
+
+Tak, poslední algoritmus, který si zde ukážeme, je Quick Sort. Quick Sort je to proto, že je vskutku rychlý. Měl by v průměru být rychlejší, než třídění sléváním, ačkoliv má stejnou časovou složitost. Proč? Nu, v praxi zkrátka funguje lépe. Nicméně při velmi špatné volbě pivota může teoreticky běžet i déle, a to v čase O(n^2).            
+Takže, zkusíme si teď nějak vysvětlit, jak to fachá. Stejně jako merge sort, i quick sort je rekurzivní algoritmus. Má ale jeden hlavní rozdíl, který se odráží na paměťové složitosti. Nevytváří nová pole, ale řadí původní pole tzv. na místě.           
+Na začátku každé iterace si musíme zvolit nějakého pivota. To můžeme udělat na základě nějakého předpokladu, nebo zkrátka náhodně. Po zvolení pivota dáme všechny prvky, které jsou větší než pivot, na jednu stranu a prvky, které jsou menší, na tu druhou. Poté si vezmeme levou a pravou část pole od pivota a provedeme s ní obdobný proces. Zvolíme pivota, rozdělíme prvky. Na konci bychom měli dostat perfektně seřazené pole.
 
 Materiály
 ---
