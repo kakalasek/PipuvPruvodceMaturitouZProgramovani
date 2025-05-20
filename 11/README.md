@@ -6,11 +6,11 @@ Podíváme se teď na síťové aplikaci a jejich tvorbu. V moderních programov
 ![ISO/OSI](iso_osi_model.png)
 
 Uděláme si takový malý vhled do počítačových sítí, abychom pochopili, proč potřebujeme takový level abstrakce. Máme síťový model, který má hned několik vrstev. Říkáme mu ISO/OSI model, popř. TCP/IP, kde jsou některé vrstvy spojené.              
-Spodní vrstvy se starají fyzickou implementaci, tedy přenos bitů po síti. Jako programátora by nás němeělo zajímat, zda se bude signál přenášet bezdrátově či po kabelu. Podobně by nás nemuselo zajímat, kudy naše data poletí, zda se dostanou k cíli, poř. jejich retransitace a tak podobně. To vše zajišťují spodní vrstvy a protokoly. Píšeme-li síťovou aplikaci, konkrétní implementace a funkce spodních vrstev vědět nepotřebujeme.           
+Spodní vrstvy se starají fyzickou implementaci, tedy přenos bitů po síti. Jako programátora by nás nemělo zajímat, zda se bude signál přenášet bezdrátově či po kabelu. Podobně by nás nemuselo zajímat, kudy naše data poletí, zda se dostanou k cíli, popř. jejich retransmitace a tak podobně. To vše zajišťují spodní vrstvy a protokoly. Píšeme-li síťovou aplikaci, konkrétní implementace a funkce spodních vrstev vědět nepotřebujeme.           
 
 ![Berkeley Socket](berkeley_socket.png)
 
-Je nám prezentováno jen jednoduché rozhraní, pomocí kterého můžeme interagovat se sítí. Berkeley socket je jakž takž standardizovaný. Stěžejním konceptem Berkeley socketu je .. no, socket. Ze síťování známe socket jako spojení IP adresy a portu. Zde je socket jakýsi objekt, přes který můžeme se sítí komunikovat. Nicméně platí, že musí mít ip adresu a port.                  
+Je nám prezentováno jen jednoduché rozhraní, pomocí kterého můžeme interagovat se sítí. Berkeley socket je jakž takž standardizovaný. Stěžejním konceptem Berkeley socketu je .. no, socket. Ze síťování známe socket jako spojení IP adresy a portu. Zde je socket jakýsi objekt, přes kterým můžeme se sítí komunikovat. Nicméně platí, že musí mít ip adresu a port.                  
 Máme také tzv. serverový soket a klientský soket. K tomu serverovému se může ten klientský připojit.                
 Když vytváříme serverový soket, musíme nejdříve provést operaci bind, která soket napojí na určitý port a IP adresu.        
 Pak lze zavolat listen, který označí soket jako pasivní. Tedy, že bude poslouchat pro příchozí spojení.                 
@@ -19,10 +19,29 @@ Lze pak využít metod pro recieve a send pro příjem a zaslání dat přes sí
 Je důležité soket také zavřít. To můžeme udělat na základě nějakého uživatelského příkazu, nebo pomocí nějakého timeoutu při dlouhé neaktivitě klienta.                 
 Timeout je důležitá věc v síti. Většina zařízení na síti má pro komunikaci implementovaný nějaký timeout. Nemůžeme si být jisti, jak tyto timeouty přesně vypadají, proto je dobrým zvykem vytvořit vlastní timeouty v našem kódu, nejlépe nastavitelné.                
 Serverové vlákno zpravidla vytváří pro každé spojení vlastní vlákno. Konkrétně vytvoří klientské vlákno, které si povídá s připojeným uživatelem. Takto lze obsluhovat více spojení najednou.               
-Samozřejmě se na konci také musí zavřít samotné serverové vlákno.
+Samozřejmě se na konci také musí zavřít samotné serverové vlákno.                   
+Takhle může vypadat velmi jednoduchý server v Pythonu. Počká na spojení a následně do nekonečná odpovídá "Message recieved ...". Po uzavření spojení uzavře klientský i serverový soket a program skončí. Nevyužívá vláken, může tedy obsluhovat pouze jedno spojení, což není ideální, ale na ukázku to stačí.
+
+```Python
+import socket   # Knihovna pro komunikaci v siti
+
+sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Vytvorime socket. AF_INET znamena, ze pouzivame IPv4 adresy (AF_INET6 by byly IPv6). SOCK_STREAM udava protokol, zde TCP
+sc.bind(("localhost", 8080))    # Je potreba napojit socket na urcitou ip adresu a port. localhost se prelozi nejspis na 127.0.0.1 a port mame 8080. Je nutne tyto dve hodnoty zadat v tuplu
+sc.listen() # Operace listen() rekne OS, ze tento soket je pasivni, bude poslouchat a prijimat spojeni
+client, addr = sc.accept()  # Blokujici metoda accept(). Po uspesnem pripojeni vrati klientsky soket a adresu pripojeneho klienta
+try:
+    while True:
+        msg = client.recv(1024) # Serverova vlakno se zastavi, dokud od klienta nedostane odpoved. Cislo 1024 udava velikost bufferu, tedy maximalni velikost zpravy zaslane od klienta
+        client.sendall("Message recieved\n".encode())   # Zasle klientovi zpravu. Sendall() se postara o to, aby byl opravdu zaslan cely buffer najednou. Encode() zpravu zakoduje do binarni podoby
+except:
+    pass
+finally:    # Musime uzavrit vsechny sokety
+    client.close()
+    sc.close()
+```
 
 Klientské vlákno se chová mírně odlišně. Po vytvoření musíme využít metodu connect, která dovede klientské vlákno dovede spojit s nějakým serverovým vláknem na základě zadané IP adresy a portu.           
-Komunikace pak opět probíhá stejně, metodami send a recieve. Opět připomínám, že připojení musíme na konci opět uzavřít.            
+Komunikace pak opět probíhá stejně, metodami send a recieve. Opět připomínám, že připojení musíme na konci uzavřít.            
 
 ![Client-Server](client_server.png)
 
