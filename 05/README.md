@@ -23,8 +23,5 @@ Otázka zmiňuje architekturu MVC (Model-View-Controller). Já jsem v tomto vzor
 
 ![MVC](mvc.png)
 
-Kódové příklady
----
-
 Materiály
 ---

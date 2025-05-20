@@ -8,25 +8,7 @@ V této otázce bude více kódu než povídání. Ale nějaký přehled si udě
 Anonymní metody, AKA lambda. Nu, je to přesně to, co to říká, jakási nepojmenovaná metoda. V různých jazycích jsou implementované rozdílně. My si zde budeme ukazovat implementaci v Pythonu, Javě a C++.               
 Často se využívají např. v metodách map či filter, kde specifikují metodu, na základě které se daná operace provádí. Ostaně to uvidíte v praxi v kódu.          
 
-Speciální, někdy také magické, ale to je za mě naprosto otřesné označení, nic magického nedělají, metody se vyskytují např. v Pythonu. Najdeme je také pod názvem double-underscore metody, nebo dunder metody. Jmenují se tak proto, protože před jejich a za jejich jménem píšeme dvě podtržítka  V čem že jsou tak speciální? Nu, dají se třeba ve třídě přepsat a tak změnit chování třeba některých operátorů a tak podobně. Jak se to liší od přetěžování operátorů? No .. v podstatě nijak, jen to má fancy název. Proto si zde zahrnem i přetěžování operátorů v C++.           
-Joo a třeba PHP má také magické metody, ale nikdo normální nemá rád PHP, takže budeme dělat, že neexistuje.           
-Taková zajímavost, Java nemá ani speciání metody ani přetěžování operátorů a funguje i bez toho. Když chcete sčítat dva objekty stejného typu, zkrátka si pro to naprogramujete metodu, bada bum bada bem, ízi ne? Přetěžování operátorů může také přivést určité problémy, ale ty nás nemusí zajímat.               
-
-Statické metody. Otázka mluví vyloženě o metodách, takže vynecháme chování statických proměnných v mimo třídu třeba C++ nebo C.                 
-Vytvoříme-li statickou metodu nebo proměnnou ve třídě, váže se ke třídě, nikoliv k nějaké instanci třídy. Polopaticky to znamená, že statická vlastnost třídy je společná pro všechny její instance. Když máme třídu kočka a vytvoříme v ní statickou proměnnou počet životů nastávíme ji na devět, všechny kočky budou mít při vytvoření 9 životů. Co se stane, když tuto proměnnou snížíme o jedna? Efektivně jsme jednou zabili všechny vytvořené kočky. Jak je to monžné? Statická vlastnost je společná pro všechny kočky, opakuji, váže se ke třídě samotné, nikoliv ke konkrétní instanci.               
-Se statickou metodou je to podobné. Prozradím vám jednu věc. Nic jako metoda neexistuje, všechno je to pouze funkce, která má jako první parametr objekt, na kterém je volána. Ano, je mi to líto, OOP je jen iluze. Je to velmi hezky vidět v jazycích, jako třeba Python, kde musíte do instančních metod dávat jako první parametr vždy *self*. Proč myslíte? Aby jste v metodě mohli používat vlastnosti dané instance. No, statická metoda tento první parametr nemá. Není tedy závislá na konkrétní instanci, ale opět se váže ke třídě.              
-Z evidentních důvodů tak nemůžeme ve statické metodě využívat instanční proměnné. Nemáme v ní přístup ke konkrétní instanci, protože nemá žádný parametr, který by jí tento objekt předal.              
-V Javě a v C++ nám stačí před proměnnou nebo metodu dát klíčové slovo *static*. V Pythonu musíme využít dekorátor @staticmethod a nesmíme do metody jako vstup dávat *self*.
-
-Ukazatele na metodu. V zadání je vyloženě napsáno delegát. Delegát se tomu říká jenom v ostrém céčku a ostré céčku je hnus, takže o tom se tu bavit nebudeme. Když se podíváme na tu samou věc v našich 3 vybraných jazycích:           
-V Python je funkce tzv. first class objekt. Co to znamená? Že se k nim můžeme chovat úplně stejně jako ke všem ostatním datovým typům. Můžeme je ukládat do proměnných, předávat jako parametry, ... Takže nic jako trapného ukazatele na metodu nepotřebujeme, naše proměnná může být metoda.          
-Java ... huh, Java. Nu, Java má jakýsi Function interface, který dovede reprezentovat funkci tak, že to něj uložíte lambda metodu. Má i více typů podobných objektů. Nicméně v Javě zpravidla ukazatele na metodu nepotřebujete, takže žádný jiný šikovně zabudovaný fígl na to nemá, nebo alespoň já jsem ho nikdy nepotřeboval.               
-No v C++ máme jednu věc, která nám efektivně odpoví na otázku, jak fungují ukazatele na metody zde. C++ má pointery. Proč bychom tedy nemohli mít pointer na funkci. Funkce se také nachází někde v paměti a stejně jako pole má v paměti nějaký začátek, kam může pointer ukazovat. No a práce s pointerem na metodu už je v podstatě analogická k práci s kterýmkoliv jiným pointerem, jen má zkrátka trochu specifický datový typ.
-
-Ukázky kódu
----
-
-**Python - Lambda**
+Python využívá klíčového slova *lambda*. V Pythoní lambdě může být opravdu jen jeden příkaz. 
 
 ```Python
 # Vytvorime jednoduchou lambda fci, ktera umocni cislo na druhe cislo
@@ -52,7 +34,31 @@ lst = filter(lambda y: y % 2, lst) # Odstranime vsechna suda cisla
 print(list(lst))
 ```
 
-**Python - Special methods**
+V javě můžeme lambdu vytvořit pomocí tzv. FunctionalInterface. To je interface, který má pouze jednu metodu. Narozdíl od Pythonu ale samotná implementace metody může obsahovat i více řádků kódu. Lambda se pak tvoří pomocí definice proměnné typu našeho FunctionalInterface.
+
+```Java
+public class Main{
+
+    @FunctionalInterface
+    static interface UniMath{
+        Integer operate(Integer x);
+    }
+
+    static void printResultOfMathematicalOperation(UniMath u, int t){
+        System.out.println(u.operate(t));
+    }
+
+    public static void main(String[] args) {
+        UniMath square = (x) -> x * x;
+
+        printResultOfMathematicalOperation(square, 5);
+    }
+}
+```
+
+Speciální, někdy také magické, ale to je za mě naprosto otřesné označení, nic magického nedělají, metody se vyskytují např. v Pythonu. Najdeme je také pod názvem double-underscore metody, nebo dunder metody. Jmenují se tak proto, protože před jejich a za jejich jménem píšeme dvě podtržítka  V čem že jsou tak speciální? Nu, dají se třeba ve třídě přepsat a tak změnit chování třeba některých operátorů a tak podobně. Jak se to liší od přetěžování operátorů? No .. v podstatě nijak, jen to má fancy název. Proto si zde zahrnem i přetěžování operátorů v C++.           
+Joo a třeba PHP má také magické metody, ale nikdo normální nemá rád PHP, takže budeme dělat, že neexistuje.           
+Taková zajímavost, Java nemá ani speciání metody ani přetěžování operátorů a funguje i bez toho. Když chcete sčítat dva objekty stejného typu, zkrátka si pro to naprogramujete metodu, bada bum bada bem, ízi ne? Přetěžování operátorů může také přivést určité problémy, ale ty nás nemusí zajímat.               
 
 ```Python
 # Toto je je pomocna trida Node, aby nas Stack fungoval plus minus tak, jak ma. Nemusite ji venovat velkou pozornost
@@ -117,101 +123,7 @@ print(stack)
 print(len(stack))
 ```
 
-**Python - Static methods**
-
-```Python
-    class Calculator:
-
-    @staticmethod
-    def add(a, b):
-        return a + b
-
-    @staticmethod
-    def subtract(a, b):
-        return a - b
-
-    @staticmethod
-    def multiplicate(a, b):
-        return a * b
-
-    @staticmethod
-    def divide(a, b):
-        return a/b
-
-if __name__ == "__main__":
-    print(Calculator.add(2, 3))
-    print(Calculator.divide(15, 11))
-```
-
-**Python - Functions**
-
-```Python
-def multiple_wrapper(n):
-    
-    def inner_function():
-        return n * "O"
-
-    return inner_function
-
-def double_trouble(function):
-    
-    def wrapper():
-        return function() * 2
-    
-    return wrapper
-
-@double_trouble     # Python Decorator
-def say_hi():
-    return "Hello there\n"
-
-
-if __name__ == "__main__":
-    # Funkce je first class, lze ji libovolne ulozit do promenne a zachazet s ni
-    three_timer = multiple_wrapper(3)
-    print(three_timer())
-
-    print(say_hi())
-```
-
-**Java - Lambda**
-
-```Java
-import java.util.Arrays;
-
-public class Main{
-    public static void main(String[] args) {
-        int nums[] = {1, 2, 3, 4, 5};
-
-        int newNums[] = Arrays.stream(nums).filter(i -> i % 2 == 0).map(i -> i * i).toArray();
-
-        for(int record : newNums){
-            System.out.println(record);
-        }
-    }
-}
-```
-
-```Java
-public class Main{
-
-    @FunctionalInterface
-    static interface UniMath{
-        Integer operate(Integer x);
-    }
-
-    static void printResultOfMathematicalOperation(UniMath u, int t){
-        System.out.println(u.operate(t));
-    }
-
-    public static void main(String[] args) {
-        UniMath square = (x) -> x * x;
-
-        printResultOfMathematicalOperation(square, 5);
-    }
-}
-```
-
-**Java - Special methods .. except not at all**
+Ačkoliv Java nic jako přetěžování operátorů nemá, každý objekt je odděděn od objektu, který má určitě standardizované metody, některé známé metody je volají. Hezkým příkladem je třeba toString(). Ten volá náš známy System.out.println().
 
 ```Java
 public class Main{
@@ -262,7 +174,37 @@ public class Main{
 }
 ```
 
-**Java - Static methods**
+Statické metody. Otázka mluví vyloženě o metodách, takže vynecháme chování statických proměnných v mimo třídu třeba C++ nebo C.                 
+Vytvoříme-li statickou metodu nebo proměnnou ve třídě, váže se ke třídě, nikoliv k nějaké instanci třídy. Polopaticky to znamená, že statická vlastnost třídy je společná pro všechny její instance. Když máme třídu kočka a vytvoříme v ní statickou proměnnou počet životů nastávíme ji na devět, všechny kočky budou mít při vytvoření 9 životů. Co se stane, když tuto proměnnou snížíme o jedna? Efektivně jsme jednou zabili všechny vytvořené kočky. Jak je to monžné? Statická vlastnost je společná pro všechny kočky, opakuji, váže se ke třídě samotné, nikoliv ke konkrétní instanci.               
+Se statickou metodou je to podobné. Prozradím vám jednu věc. Nic jako metoda neexistuje, všechno je to pouze funkce, která má jako první parametr objekt, na kterém je volána. Ano, je mi to líto, OOP je jen iluze. Je to velmi hezky vidět v jazycích, jako třeba Python, kde musíte do instančních metod dávat jako první parametr vždy *self*. Proč myslíte? Aby jste v metodě mohli používat vlastnosti dané instance. No, statická metoda tento první parametr nemá. Není tedy závislá na konkrétní instanci, ale opět se váže ke třídě.              
+Z evidentních důvodů tak nemůžeme ve statické metodě využívat instanční proměnné. Nemáme v ní přístup ke konkrétní instanci, protože nemá žádný parametr, který by jí tento objekt předal.              
+V Javě a v C++ nám stačí před proměnnou nebo metodu dát klíčové slovo *static*. V Pythonu musíme využít dekorátor @staticmethod a nesmíme do metody jako vstup dávat *self*.
+
+```Python
+class Calculator:
+
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+    @staticmethod
+    def subtract(a, b):
+        return a - b
+
+    @staticmethod
+    def multiplicate(a, b):
+        return a * b
+
+    @staticmethod
+    def divide(a, b):
+        return a/b
+
+if __name__ == "__main__":
+    print(Calculator.add(2, 3))
+    print(Calculator.divide(15, 11))
+```
+
+A zde příklad v Javě:
 
 ```Java
 public class Main{
@@ -296,28 +238,62 @@ public class Main{
 }
 ```
 
-**C++ - Lambda**
+Ukazatele na metodu. V zadání je vyloženě napsáno delegát. Delegát se tomu říká jenom v ostrém céčku a ostré céčku je hnus, takže o tom se tu bavit nebudeme. Když se podíváme na tu samou věc v našich 3 vybraných jazycích:           
+V Python je funkce tzv. first class objekt. Co to znamená? Že se k nim můžeme chovat úplně stejně jako ke všem ostatním datovým typům. Můžeme je ukládat do proměnných, předávat jako parametry, ... Takže nic jako trapného ukazatele na metodu nepotřebujeme, naše proměnná může být metoda.          
+Java ... huh, Java. Nu, Java má jakýsi Function interface, který dovede reprezentovat funkci tak, že to něj uložíte lambda metodu. Má i více typů podobných objektů. Nicméně v Javě zpravidla ukazatele na metodu nepotřebujete, takže žádný jiný šikovně zabudovaný fígl na to nemá, nebo alespoň já jsem ho nikdy nepotřeboval.               
+No v C++ máme jednu věc, která nám efektivně odpoví na otázku, jak fungují ukazatele na metody zde. C++ má pointery. Proč bychom tedy nemohli mít pointer na funkci. Funkce se také nachází někde v paměti a stejně jako pole má v paměti nějaký začátek, kam může pointer ukazovat. No a práce s pointerem na metodu už je v podstatě analogická k práci s kterýmkoliv jiným pointerem, jen má zkrátka trochu specifický datový typ.
 
-```C++
+```Python
+def multiple_wrapper(n):
+    
+    def inner_function():
+        return n * "O"
 
+    return inner_function
+
+def double_trouble(function):
+    
+    def wrapper():
+        return function() * 2
+    
+    return wrapper
+
+@double_trouble     # Python Decorator
+def say_hi():
+    return "Hello there\n"
+
+
+if __name__ == "__main__":
+    # Funkce je first class, lze ji libovolne ulozit do promenne a zachazet s ni
+    three_timer = multiple_wrapper(3)
+    print(three_timer())
+
+    print(say_hi())
 ```
 
-**C++ - Special methods**
+Takhle může vypadat ukazatel na metodu v C++:
 
 ```C++
+#include <iostream>
 
-```
+using namespace std;
 
-**C++ - Static methods**
+int on_pow(int num, int exp){
+    if(exp <= 0){
+        return 1;
+    }
+    return num * on_pow(num, exp-1);
+}
 
-```C++
+int main(){
+    int (*fc_pointer)(int, int);       
 
-```
+    fc_pointer = on_pow;
 
-**C++ - Functions .. well, actually pointers**
+    cout << fc_pointer(10, 2) << endl;
 
-```C++
-
+    return 0;
+}
 ```
 
 Materiály
