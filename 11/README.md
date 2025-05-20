@@ -40,6 +40,59 @@ finally:    # Musime uzavrit vsechny sokety
     sc.close()
 ```
 
+Takhle by mohl vypadat server v Javě:
+
+```Java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Main{
+
+    public static void main(String[] args) {
+        ServerSocket socket = null;
+        BufferedReader input = null;
+        PrintWriter output = null;
+
+        try{
+            socket = new ServerSocket(8080);
+           
+            Socket s = socket.accept();
+
+            input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            output = new PrintWriter(s.getOutputStream());
+
+            String line = "";
+
+            while ((line = input.readLine()) != null){
+                line = input.readLine();
+                output.println(line);
+                output.flush();
+            }
+
+        } catch (Exception e){
+
+        } finally {
+            try{
+                if (socket != null){
+                    socket.close();
+                }
+                if (input != null){
+                    input.close();
+                }
+                if(output != null){
+                    output.close();
+                }
+            } catch (Exception e){
+
+            }
+        }
+    }
+}
+```
+
 Klientské vlákno se chová mírně odlišně. Po vytvoření musíme využít metodu connect, která dovede klientské vlákno dovede spojit s nějakým serverovým vláknem na základě zadané IP adresy a portu.           
 Komunikace pak opět probíhá stejně, metodami send a recieve. Opět připomínám, že připojení musíme na konci uzavřít.            
 
@@ -52,18 +105,6 @@ Síťové aplikace mohou mít několik základních podob. Jednou z nich je arch
 Druhou základní možností je architektura P2P (Peer-to-peer). Zde není žádný centrální server, ale každé zařízení dovede fungovat jako server i jako klient. Zpravidla může každé zařízení komunikovat s každým pomocí nějakého společného protokolu. Na této architektuře funguje třeba Torrent. Je několik nodů, kdy žádný nemá celou část požadovaného souboru, ale každý má nějakou a komunikují spolu za účelem nalezení a složení celého souboru.
 
 Jako možnost architekturu lze ještě brát třeba dedikovanou komunikaci mezi dvěma zařízeními. Příkladem využití takové architektury je např. Bluetooth.
-
-Povídání
----
-
-Ukázky kódu
----
-
-**Python - Berkley socket server**
-
-**Java - Berkley socket server**
-
-**C++ - Berkley socket server**
 
 Materiály
 ---

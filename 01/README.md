@@ -1,9 +1,6 @@
 Adresování a správa paměti - Garbage collecting, Reference/ukazatele, Struktura paměti programu
 ===
 
-Povídání
----
-
 První věcí, kterou se hodí zmínit, je, že zde budeme brát v potaz fungování paměti, procesu a programu pouze v Linuxových operačních systémech. Kdyby někoho zajímalo, jaká je konkrétní implementace ve Vidlích, může si to nastudovat sám. Nicméně většina stěžejních konceptů by měla být pro všechny konvenční operační systémy stejná.                 
 V této otázce se dostaneme hodně do hloubky. Proč? Nu, aby jsem vám dal dostatek prostoru a především, abyste si dovedli všechny koncepty hezky spojit.             
 Začneme třeba u paměti, ta tak nějak prostupuje všemi třemi podtématy otázky .. a vlastně ji má otázka i ve jméně. Co to ta paměť vlastně je? Když mluvíme o paměti počítače, zpravidla máme na mysli operační pamět, tedy RAM (Random Access Memory). Existuje samozřejmě třeba i pamět cache, ale té se zde věnovat nebudeme. Na to je samostatná extra sekce.                    
@@ -203,11 +200,10 @@ public class Modifiable {
        return n;
    }
 }
-
 ```
 
 Posledním tématem bude garbage collection. Je to velmi užitečná utilita implementovaná do moderních programovacích jazyků. Periodicky se spouští a čistí za nás haldu. Nemusíme se tedy starat o dealokaci objektů, dělá to za nás garbage collector. Pokud již v našem kódu nejsou na object na haldě žádné reference, tento objekt uklidí.            
-Existuj9 objekty, na které bude existovat reference po celou dobu běhu programu, nebo přinejmenším velmi dlouho. Takové objekty by bylo zbytečné kontrolovat při každém spuštění sběratele odpadu. Pokud tedy objekt přežije více sběrů, je kontrolován méně, protože garbage collector předpokládá, že tento objekt jen tak nezmizí. Jak tento mechanismus funguje konkrétně, to záleží na implementaci.      
+Existuj9 objekty, na které bude existovat reference po celou dobu běhu programu, nebo přinejmenším velmi dlouho. Takové objekty by bylo zbytečné kontrolovat při každém spuštění sběratele odpadu. Pokud tedy objekt přežije více sběrů, je kontrolován méně, protože garbage collector předpokládá, že tento objekt jen tak nezmizí. Jak tento mechanismus funguje konkrétně, to záleží na implementaci.                   
 
 ![Garbage Collection](garbage_collection.gif)
 
