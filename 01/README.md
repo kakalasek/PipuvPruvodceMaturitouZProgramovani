@@ -32,25 +32,10 @@ Stack, neboli zásobník, je velmi specifická datová struktura, která je zde 
 Stačí nám vědět, že každá metoda a funkce, která se zavolá, je společně se jejími argumenty a lokálními proměnnými vložena na vrchol zásobníku. Dokud tato metoda neukončí svůj běh, metody spuštěné před ní také nedoběhnou. Tohoto principu lze velmi pěkně vužít např. při rekurzi.          
 Zásobník může mít omezenou velikost. Zavoláme-li tolik funkcí/metod, že náš stack přeteče, program nám jednoduše spadne.                
 Základní datové typy, jsou-li deklarované jako lokální proměnné, se zpravidla ukládají právě na zásobník. Konkrétně třeba int, char, long, bool, ... Hlavně tady prosím vás nezmiňujte string, to byste si pěkně zavařili. Ne, že by nemohl existovat string na zásobníku, ale ve většině jazyků se ukládá jinde. Nicméně, taková perlička, třeba C++ dovede uložit i objekt na Stack, ono tomu nic vyloženě nebrání. Nicméně důležité je si uvědomit, že takový objekt by po konci funkce přestal existovat, protože by byl vytvořen jako lokální proměnná.                   
-Druhým místem, kde se mohou proměnné vytvořené za běhu programu nacházet, je heap, halda. Zklamu vás, s haldou jako datovou strukturou má pramálo společného. Je to takový sklad dat. Nachází se zde referenční datové typy. Co to znamená? Znamená to, že v zásobníku je uložena pouze reference na tento object. Ten samotný je uložen právě na haldě. Konkrétně si to ukážeme v kódu na konci.               
+Druhým místem, kde se mohou proměnné vytvořené za běhu programu nacházet, je heap, halda. Zklamu vás, s haldou jako datovou strukturou má pramálo společného. Je to takový sklad dat. Nachází se zde referenční datové typy. Co to znamená? Znamená to, že v zásobníku je uložena pouze reference na tento object. Ten samotný je uložen právě na haldě.                    
 Chceme-li něco uložit na haldu, musíme si to nejdříve alokovat. Operační systém nám předá ukazatel na místo, které jsme si takto zabrali a dále se o to nestará. To může být problém, pokud po sobě alokované místo patřičně neuklidíme, tedy nedealokujeme. To jest, neřekneme operačnímu systému, že toto místo je opět volné. Mohou tak vznikat různá přetečení paměti a můžeme mít spoustu nechtěných problémů. V moderních jazycích se nám o toto stará Garbage collector, o kterém si povíme záhy.            
-Globální proměnné se nachází na speciálním místě. Jejich velikost musí být známa při kompilaci.             
-
-![Pass By Reference And Pass By Value](pass_by_reference_and_pass_by_value.gif)
-
-Měli bychom si vysvětlit rozdíl mezi pass-by-value a pass-by-reference. Když má naše funkce nějaké parametry, muhou do funkce vstupovat dvěma způsoby. Buď jako jejich hodnota, funkce tedy využívá pouze hodnotu vstupního parametru. Pokud ho ve funkci změníme, nezmění se jeho hodnota nikde jinde. Druhým způsobem je pass-by-reference. Do metody tedy v podstatě vstupuje pointer na proměnnou parametru. Když tedy v metodě změníme tuto proměnnou, změníme i její hodnotu všude jinde v programu.              
-Proč to tak je? Pointer je koncept, který známe z třeba z jazyka C. Pointer ukládá nikoliv hodnotu proměnné, ale hodnotu její adresy na haldě, nebo zásobníku. Změníme-li hodnotu této proměnné, odrazí se to na všech pointerech, které na ni ukazují.     
-
-![Garbage Collection](garbage_collection.gif)
-
-Posledním tématem před ukázkami kódu, bude garbage collection. Je to velmi užitečná utilita implementovaná do moderních programovacích jazyků. Periodicky se spouští a čistí za nás haldu. Nemusíme se tedy starat o dealokaci objektů, dělá to za nás garbage collector. Pokud již v našem kódu nejsou na object na haldě žádné reference, tento objekt uklidí.            
-Existuj9 objekty, na které bude existovat reference po celou dobu běhu programu, nebo přinejmenším velmi dlouho. Takové objekty by bylo zbytečné kontrolovat při každém spuštění sběratele odpadu. Pokud tedy objekt přežije více sběrů, je kontrolován méně, protože garbage collector předpokládá, že tento objekt jen tak nezmizí. Jak tento mechanismus funguje konkrétně, to záleží na implementaci.      
-
-
-Ukázky kódu
----
-
-**Jazyk C - Proměnné, ukazatele v paměti**
+Globální proměnné se nachází na speciálním místě. Tomuto místu říkáme datový nebo BSS segment. Rozdíl je, že v BSS jsou neinicializované proměnné. Jejich velikost musí být známa při kompilaci.             
+Zde jsem pro vás připravil příklad jednoduchého programu v jazyce C. Je popsaný tak, aby bylo vidět, co je uložené na haldě, v datovém segmentu či na zásobníku.
 
 ```C
 #include <stdio.h>
@@ -84,39 +69,147 @@ int main()
 }
 ```
 
-**Jazyk C++ - Pass-by-value vs Pass-by-reference**
+![Pass By Reference And Pass By Value](pass_by_reference_and_pass_by_value.gif)
+
+Měli bychom si vysvětlit rozdíl mezi pass-by-value a pass-by-reference. Když má naše funkce nějaké parametry, muhou do funkce vstupovat dvěma způsoby. Buď jako jejich hodnota, funkce tedy využívá pouze hodnotu vstupního parametru. Pokud ho ve funkci změníme, nezmění se jeho hodnota nikde jinde. Druhým způsobem je pass-by-reference. Do metody tedy v podstatě vstupuje pointer na proměnnou parametru. Když tedy v metodě změníme tuto proměnnou, změníme i její hodnotu všude jinde v programu. 
+Nebo alespoň tak si to můžeme představit pro zjednodušení. V C++ je ale rozdíl mezi pointerem a referencí. Reference je pouze takový alias na náš objekt. Jak jsou reference implementovány v kompileru je pouze na implementaci, dokud dodržují pravidla pro referenci. Můžeme do metody poslat i pointer na objekt. Ten se chová malinko jinak.             
+Co to vlastně ten pointer je? Pointer je koncept, který známe z třeba z jazyka C. Pointer ukládá nikoliv hodnotu proměnné, ale hodnotu její adresy na haldě, nebo zásobníku. Změníme-li hodnotu v objektu, odrazí se to na všech pointerech, které na ni ukazují.               
+Ukážeme si teď, jak vypadá pass by value:
 
 ```C++
 #include <iostream>
 
 using namespace std;
 
-void pass_by_value(int a)   // Jako parametr zde bude vstupovat pouze hodnota promenna 'a'. Nelze tedy hodnotu promenne uvnitr metody nijak zmenit
-{
-    a = 11;
-    cout << "This is 'a' inside pass_by_value: " << a << endl;
+void pass_by_value(int a){
+    a = a + 1;
+    cout << "This is value of 'a' inside the function: " << a << endl;
 }
 
-void pass_by_reference(int &a)  // Jako parametr zde vstupuje reference na promennou 'a'. Tu si muzete predstavit jako prosty pointer. Muzeme tedy smele menit hodnotu promenne
-{
-    a = 23;
-    cout << "This is 'a' inside pass_by_reference: " << a << endl;
-}
+int main(){
+    int a = 10;
 
-int main()
-{
-    int a = 6;
-    
-    cout << "This is 'a' before pass_by_value: " << a << endl;
-    pass_by_value(a);   // Hodnota se po zavolani metody nezmeni
-    cout << "This is 'a' after pass_by_value: " << a << endl;
-    cout << "This is 'a' before pass_by_reference: " << a << endl;
-    pass_by_reference(a);   // Nyni se vsak hodnota jiz zmeni
-    cout << "This is 'a' after pass_by_reference: " << a << endl;
+    pass_by_value(a);
+
+    cout << "This is value of 'a' after calling the function: " << a << endl;
 
     return 0;
 }
 ```
+
+Jak můžeme vidět, když jsme změnili proměnnou a ve funkci při použití pass_by_value, hodnota proměnné se nezměnila nikde jinde. Je to proto, že do fce jsme poslali jen a pouze hodnotu naší proměnné. Parametr fce už nemá s naší proměnnou nic společného.                    
+Na druhou stranu, když chceme využít pass_by_reference:
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+void pass_by_reference(int &a){
+    a = a + 1;
+    cout << "This is value of 'a' inside the function: " << a << endl;
+}
+
+int main(){
+    int a = 10;
+
+    pass_by_reference(a);
+
+    cout << "This is value of 'a' after calling the function: " << a << endl;
+
+    return 0;
+}
+```
+
+Stačilo přidat ampersand před náš parametr a program se hned chová jinak. Nyní se naše proměnná změní. Je to proto, že posíláme do fce referenci na naši proměnnou. To samé bychom mohli udělat také pomocí pointeru:       
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+void pass_by_pointer(int *a){
+    *a = *a + 1;
+    cout << "This is value of 'a' inside the function: " << *a << endl;
+}
+
+int main(){
+    int a = 10;
+
+    pass_by_pointer(&a);
+
+    cout << "This is value of 'a' after calling the function: " << a << endl;
+
+    return 0;
+}
+```
+
+A tradá, funguje to stejně jako s referencí. Jen jsme museli přidat pár hvězdiček a místo proměnné do fce zasíláme její adresu (ampersand je tzv. address of operátor. Neptejte se mě, proč ho využívají i u pass by reference. Tam tento operátor takto nefunguje). Jaký je tedy rozdíl? Reference je takový syntaktický cukřík ke const pointeru, tedy k ukazateli, kterému nesmíme měnit hodnotu. To neznamená, že bychom nemohli změnit objekt, na který ukazuje. Nemůžeme ale změnit, kam pointer ukazuje. Názorný příklad:
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+void pass_by_reference(int &a){
+    a = a + 1;
+    int b = 12;
+    a = b;
+    b++;
+    cout << "This is value of 'a' inside the function: " << a << endl;
+    cout << "This is value of 'b' inside the function: " << b << endl;
+}
+
+int main(){
+    int a = 10;
+
+    pass_by_reference(a);
+
+    cout << "This is value of 'a' after calling the function: " << a << endl;
+
+    return 0;
+}
+```
+
+Jak můžeme vidět, a = b změnilo pouze hodnotu 'a', nicméně reference stále ukazuje na to samé místo v paměti, proto 'b++' nezměnilo 'a'.                    
+Referenci jsou ale věcí především C++. Třeba Java je striktně pass by value. Jak tedy předáváme objekt? Předáváme hodnotu pointeru na objekt. Můžeme pak v metodě měnit objekt, ale když změníme hodnotu pointeru v metodě, třeba na jiný objekt, jinde v programu se to neodrazí. Takhle by to vypadalo: 
+
+```Java
+public class Main{
+
+    public static void tryToModify(Modifiable m){
+        m.setN(10);
+    }
+
+    public static void main(String[] args) {
+        Modifiable mnm = new Modifiable(0);
+        System.out.println(mnm.getN());
+        tryToModify(mnm);
+        System.out.println(mnm.getN());
+    }
+}
+
+public class Modifiable {
+    private int n;
+    
+   public Modifiable(int n){
+        this.n = n;
+   }
+
+   public void setN(int n) {
+       this.n = n;
+   }
+   public int getN() {
+       return n;
+   }
+}
+
+```
+
+Posledním tématem bude garbage collection. Je to velmi užitečná utilita implementovaná do moderních programovacích jazyků. Periodicky se spouští a čistí za nás haldu. Nemusíme se tedy starat o dealokaci objektů, dělá to za nás garbage collector. Pokud již v našem kódu nejsou na object na haldě žádné reference, tento objekt uklidí.            
+Existuj9 objekty, na které bude existovat reference po celou dobu běhu programu, nebo přinejmenším velmi dlouho. Takové objekty by bylo zbytečné kontrolovat při každém spuštění sběratele odpadu. Pokud tedy objekt přežije více sběrů, je kontrolován méně, protože garbage collector předpokládá, že tento objekt jen tak nezmizí. Jak tento mechanismus funguje konkrétně, to záleží na implementaci.      
+
+![Garbage Collection](garbage_collection.gif)
 
 Materiály
 ---

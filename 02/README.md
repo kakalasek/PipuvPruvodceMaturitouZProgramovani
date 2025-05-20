@@ -357,20 +357,6 @@ public class Main{
 }
 ```
 
-**Java - Insertion Sort**
-**Java - Merge Sort**
-**Java - Quick Sort**
-
-**C++ - BFS**
-**C++ - DFS**
-**C++ - Bubble Sort**
-**C++ - Selection Sort**
-**C++ - Insertion Sort**
-**C++ - Merge Sort**
-**C++ - Quick Sort**
-
-
-
 Materiály
 ---
 
