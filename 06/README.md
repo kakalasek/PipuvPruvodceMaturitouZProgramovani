@@ -113,10 +113,29 @@ Tak a pro zajímavost si ukážeme i jak dlouho by takové algoritmy opravdu bě
 Z tabulky je hezky vidět, že algoritmus s exponenciální složitostí je pro větší počet prvků naprosto nepoužitelný.          
 
 Další je paměťová složitost algoritmu. Ta vypadá analogicky k té časové. Jen s tím rozdílem, že místo času měříme prostor, který algoritmus v paměti zabere. Dobrý příkladem je např. libovolný jednoduchý třídící algortimus, třeba Bubble sort, vs. třídění sléváním. Bubble sort pracuje stále na jednom poli. Toto pole zabírá v paměti stále konstantní velikost. Paměťová složitost bublinkového třídění je tedy O(1). Na druhou stranu při třídění sléváním musíme vytvářet jednotlivá podpole. Počet těchto polí roste lineárně s počtem prvků v poli, takže třídění sléváním má paměťovou složitost O(n).                  
-Jak si naměřit časovou a paměťovou složitost sami? Je to jednoduché, ukážeme si to např. v Pythonu. Časové je tak docela jednoduchá, zkrátka si zapíšeme čas začátku a čas konce a odečteme je od sebe. Na tu paměťovou existuje v Pythonu knihovna:
+Jak si naměřit časovou a paměťovou složitost sami? Je to jednoduché, ukážeme si to např. v Pythonu. Časové je tak docela jednoduchá, zkrátka si zapíšeme čas začátku a čas konce a odečteme je od sebe. Na tu paměťovou existuje v Pythonu knihovna tracemalloc, která monitoruje, kolik bloků si alokoval náš program:
 
 ```Python
+import time
+import tracemalloc
 
+def make_square(n):
+    for i in range(n):
+        for j in range(n):
+            print('*',end='')
+        print()
+
+tracemalloc.start()
+t1 = time.time()
+
+make_square(3000)
+
+t2 = time.time()
+mem = tracemalloc.get_tracemalloc_memory()
+tracemalloc.stop()
+
+print(t2-t1, "s")
+print(mem, "bytes")
 ```
 
 Poslední, co si ukážeme, spíš tak pro ilustraci, jsou jednotlivé průběhy fcí jednotlivých složitostí.       
