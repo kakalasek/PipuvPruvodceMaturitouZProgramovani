@@ -6,10 +6,56 @@ Předem avizuji. Valnou většinu věcí, včetně příkladů a struktury poví
 Máme nějaký algoritmus. Je dobrý? Ano? Vážně? A jak to víme? Začneme intuitivně. Jak bychom mohli změřit, zda je nějaký algoritmus efektivní? Jednoduše. Vezmeme si stopky, spustíme algoritmus a změříme si, jak dlouho běží. Ačkoliv to zní nainvně, v praxi se tento přístup opravdu využívá. Nicméně pro náš případ se nechodí. Proč? Rychlost běhu našeho algoritmu bude závislá na programovacím jazyce, na operačním systému, výkonu procesoru a nespočtu dalších faktorů.  
 Jak tento problém vyřešíme? Nu, v první řadě zapomeneme na konkrétní implementace algoritmu v programovacím jazyce. Popíšeme ho pouze pseudokódem. Budeme počítač, kolik základních operací algoritmus při každém běhu provádí. Základní operací může být např. zkontrolování podmínky, součet, multiplikace, ... asi máme nějaký obrázek.  
 Vezmeme si konkrétní příklad, budeme vypisovat hvězdičky.  
-Teď bude nutné se podívat na ukázky kódu, budu na ně totiž referovat. V první otázce pomocí hvězdiček vypisujeme čtverec. Čtverec má velikost n, pro každý sloupec musíme udělat n řádků. Taková funkce tedy vypíše **n^2** hvězdiček.  
-Druhá fce vytváří z hvězdiček schody. Počet vypsaných hvězdiček můžeme odvodit od součtu prvků aritmetické posloupnosti, tedy **n(n + 1)/2**.  
-Třetí fce vypisujeme hvězdičku, dokud je n větší než jedna. Při každém vypsání hvězdičky n zmenšíme o polovinu. Projdeme-li cyklus k-krát, sníží se hodnota n na **n/2^k**. Tedy klesá exponenciálně rychle v závislosti na počtu iterací cyklu. Pomocí vyřešení jednoduché rovnice n/2^l = 1, kde l je naše neznámá, dostaneme zhruba dvojkový logaritmus n.  
-Čtvrtá a poslední fce to má trochu složitější. Kolik hvězdiček vypíše je závislé na tom, jaké číslo vložíme na začátku. Nelze tedy s přesností odhadnout, kolik hvězdiček skutečně vypíše pro nějaké náhodné číslo. Co budeme dělat? Vyřešíme to jednoduše a intuitivně. Vezmeme v potaz nejhorší možnost, tedy takovou, kdy lichost pokaždé uspěje. Když vynecháme počítání, je to zhruba **n** hvězdiček.  
+V první otázce pomocí hvězdiček vypisujeme čtverec. Čtverec má velikost n, pro každý sloupec musíme udělat n řádků. Taková funkce tedy vypíše **n^2** hvězdiček.              
+
+```Python
+def star_square(n: int) -> None:
+    for i in range (0, n):
+        for j in range (0, n):
+            print("*", end=' ')
+        print()
+
+star_square(10)
+```
+
+Druhá fce vytváří z hvězdiček schody. Počet vypsaných hvězdiček můžeme odvodit od součtu prvků aritmetické posloupnosti, tedy **n(n + 1)/2**.       
+
+```Python
+def star_stairs(n: int) -> None:
+    for i in range (0, n):
+        for j in range (0, i): 
+            print("*", end=' ')
+        print()
+
+star_stairs(10)
+```
+
+Třetí fce vypisujeme hvězdičku, dokud je n větší než jedna. Při každém vypsání hvězdičky n zmenšíme o polovinu. Projdeme-li cyklus k-krát, sníží se hodnota n na **n/2^k**. Tedy klesá exponenciálně rychle v závislosti na počtu iterací cyklu. Pomocí vyřešení jednoduché rovnice n/2^l = 1, kde l je naše neznámá, dostaneme zhruba dvojkový logaritmus n.               
+
+```Python
+def star_lower_by_half(n: int) -> None:
+    while n >= 1:
+        print('*', end=" ")
+        n = n/2
+
+
+star_lower_by_half(16)
+```
+
+Čtvrtá a poslední fce to má trochu složitější. Kolik hvězdiček vypíše je závislé na tom, jaké číslo vložíme na začátku. Nelze tedy s přesností odhadnout, kolik hvězdiček skutečně vypíše pro nějaké náhodné číslo. Co budeme dělat? Vyřešíme to jednoduše a intuitivně. Vezmeme v potaz nejhorší možnost, tedy takovou, kdy lichost pokaždé uspěje. Když vynecháme počítání, je to zhruba **n** hvězdiček.                 
+
+```Python
+def stars_if_odd(n: int) -> None:
+    while n > 0:
+        if n % 2 == 1:
+            for i in range(0, int(n)):
+                print('*', end=" ")
+        n = n/2
+
+
+stars_if_odd(7)
+```
+
 Nuže dobrá, analyzujeme si teď, kolik operací musí jednotlivé funkce v jejich průběhu udělat. Samozřejmě máme na mysli vždy nejhorší případ. V prvních třech algoritmech je počet základních operací plus minus 4. Ve čtvrtém o trochu více, tedy 8.
 
 | Číslo Funkce | Počet Operací                     |
@@ -66,65 +112,18 @@ Tak a pro zajímavost si ukážeme i jak dlouho by takové algoritmy opravdu bě
 
 Z tabulky je hezky vidět, že algoritmus s exponenciální složitostí je pro větší počet prvků naprosto nepoužitelný.          
 
-Další je paměťová složitost algoritmu. Ta vypadá analogicky k té časové. Jen s tím rozdílem, že místo času měříme prostor, který algoritmus v paměti zabere. Dobrý příkladem je např. libovolný jednoduchý třídící algortimus, třeba Bubble sort, vs. třídění sléváním. Bubble sort pracuje stále na jednom poli. Toto pole zabírá v paměti stále konstantní velikost. Paměťová složitost bublinkového třídění je tedy O(1). Na druhou stranu při třídění sléváním musíme vytvářet jednotlivá podpole. Počet těchto polí roste lineárně s počtem prvků v poli, takže třídění sléváním má paměťovou složitost O(n).
-
-## Ukázky kódu
-
-**Python - Stars n squared**
-
-```Python
-def star_square(n: int) -> None:
-    for i in range (0, n):
-        for j in range (0, n):
-            print("*", end=' ')
-        print()
-
-star_square(10)
-```
-
-**Python - Stars n squared half**
-
-```Python
-def star_stairs(n: int) -> None:
-    for i in range (0, n):
-        for j in range (0, i): 
-            print("*", end=' ')
-        print()
-
-star_stairs(10)
-```
-
-**Python - Stars log n**
-
-```Python
-def star_lower_by_half(n: int) -> None:
-    while n >= 1:
-        print('*', end=" ")
-        n = n/2
-
-
-star_lower_by_half(16)
-```
-
-**Python - Stars n**
-
-```Python
-def stars_if_odd(n: int) -> None:
-    while n > 0:
-        if n % 2 == 1:
-            for i in range(0, int(n)):
-                print('*', end=" ")
-        n = n/2
-
-
-stars_if_odd(7)
-```
-
-**Python - Measuring time and space complexity**
+Další je paměťová složitost algoritmu. Ta vypadá analogicky k té časové. Jen s tím rozdílem, že místo času měříme prostor, který algoritmus v paměti zabere. Dobrý příkladem je např. libovolný jednoduchý třídící algortimus, třeba Bubble sort, vs. třídění sléváním. Bubble sort pracuje stále na jednom poli. Toto pole zabírá v paměti stále konstantní velikost. Paměťová složitost bublinkového třídění je tedy O(1). Na druhou stranu při třídění sléváním musíme vytvářet jednotlivá podpole. Počet těchto polí roste lineárně s počtem prvků v poli, takže třídění sléváním má paměťovou složitost O(n).                  
+Jak si naměřit časovou a paměťovou složitost sami? Je to jednoduché, ukážeme si to např. v Pythonu. Časové je tak docela jednoduchá, zkrátka si zapíšeme čas začátku a čas konce a odečteme je od sebe. Na tu paměťovou existuje v Pythonu knihovna:
 
 ```Python
 
 ```
+
+Poslední, co si ukážeme, spíš tak pro ilustraci, jsou jednotlivé průběhy fcí jednotlivých složitostí.       
+
+![Asymptotic Functions](asymptotic_fce.jpg)                 
+
+Vidíme zde, proč je O(n * *log*n) tak dobrá složitost. Oproti kvadrátu klesá s počtem prvků mnohem pomaleji. K maturitě se možná bude hodit umět proložit body křivkou. Lze to udělat v Excelu nebo třeba v Geogebře pomocí regrese.
 
 ## Materiály
 
