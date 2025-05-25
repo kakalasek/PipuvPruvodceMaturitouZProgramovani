@@ -82,9 +82,3 @@ public class CustomException  extends RuntimeException{
 }
 
 ```
-
-**C++ - Error Handling**
-**C++ - Custom Exception**
-
-Materiály
----
