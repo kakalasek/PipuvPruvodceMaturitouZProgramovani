@@ -4,7 +4,61 @@ Soubory a serializace - Ukládání a načítání dat, formáty souborů
 Povídání
 ---
 
-Nuže, podíváme se nejdříve na jednolivé formáty souborů. Nebo alespoň na ty typické. Pak si v kódu ukážeme, jak lze do nějakého z nich zapsat a jak z některých číst.           
+Serializací se mohou myslet dvě věci. Buď lze myslet tu klasickou, tedy serializaci nějakého objektu do binárního formátu, nebo serializaci do nějakého textového formátu. Nejdříve se podíváme na tu první.                
+Při programování mám tu možnost serializovat objekt a následně ho třeba znovupoužít v jiném kódu. Taková serializace probíhá do nějakého binárního formátu, kterému pak rozumí jen cílová knihovna. Pro zajímavost např. v Javě, když v souboru upravíme byť jediný charakter, kompletně ho narušíme.               
+Takhle může vypadat serializace v Pythonu. Využijeme knihovnu pickle. Nejdříve třídu serializujeme:              
+
+```Python
+import pickle
+
+class Serializable():
+    
+    def __init__(self, num):
+        self.num = num
+
+myobj = Serializable(10)
+
+with open('myobj.pkl', mode="wb") as file:
+    pickle.dump(myobj, file)
+```
+
+Následně ji můžeme opět načíst:
+
+```Python
+import pickle
+
+class Serializable():
+    
+    def __init__(self, num):
+        self.num = num
+
+myobj = None
+
+with open('myobj.pkl', mode='rb') as file:
+    myobj = pickle.load(file)
+
+print(myobj.num)
+```
+
+Obdobný proces lze udělat i v Javě. V Javě je nutné, aby třída implementovala rozhraní Serializable             
+Nejdříve uložíme:
+
+```Java
+
+```
+
+Pak načteme:
+
+```Java
+
+```
+
+Nějaké důležité poznámky s serializaci. Statické proměnné nelze serializovat, náleží třídě ne instanci.
+
+Podíváme se teď, jak lze zapisovat do textových souborů.                
+
+
+Nuže, podíváme se nejdříve na jednolivé formáty souborů. Nebo alespoň na ty typické.           
 
 ![CSV](csv.PNG)
 
@@ -29,18 +83,6 @@ Využívá ho např. Ansible nebo Docker-compose. V rámci serializace jsem s n�
 
 Do souboru se zpravidla zapisuje pomocí tzv. streamů. Streamem, který určitě znáte např. v Javě, je System.out a System.in. Jeden dovede načítat data z konzole, druhý je dovede vypsat. Takový stream ale můžeme vytvořit v podstatě libovolný. Můžeme do něj psát data, která se budou posílat na síť, nebo psát a číst data do a ze souboru.             
 Soubory lze číst a zapisovat charakter po charakteru, byte po bytu, řádek po řádku. Zkrátka, jak se nám to hodí. Programovací jazyk nám k tomu dá patřičné nástroje.
-
-Ukázky kódu
----
-
-**Python - Read/Write Csv**
-**Python - Read/Write Json**
-
-**Java - Read/Write Csv**
-**Java - Read/Write Json**
-
-**C++ - Read/Write Csv**
-**C++ - Read/Write Json**
 
 Materiály
 ---
