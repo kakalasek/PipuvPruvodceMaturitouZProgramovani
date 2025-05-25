@@ -90,7 +90,60 @@ Jak toho tedy množina využívá? Z vloženého prvku vytvoří hash a je-li st
 Praktický příklad v Javě. Java implementuje dvě metody, HashCode a Equals. Equals porovnává, zda jsou dva objekty stejné, či nikoliv. HashCode dovede převést objekt na hash. Je pravidlem, že přepisujeme-li Equals, musíme nutně přepsat i HashCode, aby měly objekty, které jsou si rovny, stejný hash. Takhle by mohl vypadat objekt, který tyto metody má i s využitím v HashSetu:
 
 ```Java
+import java.util.HashSet;
 
+public class Main {
+    public static void main(String[] args) {
+        HashSet<MObject> hashSet = new HashSet<MObject>();
+        hashSet.add(new MObject("Hello", 1));
+        hashSet.add(new MObject("Hi", 1));
+        hashSet.add(new MObject("Hello", 2));
+        hashSet.add(new MObject("Hello", 2));
+        System.out.println(hashSet);
+    } 
+}
+
+import java.util.Objects;
+
+public class MObject {
+
+    private String message;
+    private int number;
+    
+    public MObject(String message, int number){
+        this.message = message;
+        this.number = number;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)  return true;
+        if(!(obj instanceof MObject)) return false;
+        MObject other = (MObject) obj;
+        if (other.getNumber() == this.number && other.getMessage().equals(this.message)){
+            return true;
+        } 
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, message);
+    }
+
+    @Override
+    public String toString() {
+        return message + ": " + number;
+    }
+}
 ```
 
 Materiály
