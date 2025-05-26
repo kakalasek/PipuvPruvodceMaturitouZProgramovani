@@ -5,6 +5,7 @@ Povídání
 ---
 
 Podíváme se teď společně na velmi důležitý koncept v programování, zpracování výjimek. Co to vůbec ta výjimka je? Je to nějaký stav v kódu, který může nastat a my se s ním ideálně chceme adekvátně vypořádat. Konkrétně, třeba dělení nulou. Nemůžeme si být jisti, že třeba uživatele nenapadne zadat do jmenovatele nulu. V takovém případě by nám program třeba mohl spadnout. To ale rozhodně nechceme, tvoříme-li kupříkladu kalkulačku.                  
+V zásadě existují tři druhy výjimek, resp. problému, o které můžou nastat. Prvním z nich je výjimka typu SyntaxError. Při ní náš program ani nezkompiluje. Druhá je RuntimeError. To jsou v podstatě naše výjimky, které budeme za chvilku odchytávat. Jsou to nějaké chyby, které nastanou v programu a my se s nimi můžeme adekvátně vypořádat. Poslední chybou je chyba logická, tedy že náš program něco dělá špatně, nicméně nevyhazuje výjimku. Takové chyby jsou nejhorší, protože na ně přicházíme jen těžko.           
 Na pomoc nám přichází právě nástroje pro práci s výjimkami. Takovou výjimku pro dělení nulou můžeme odchytit a místo spadnutí programu uživateli napsat, že dělit nulou nelze.              
 Tzv. Try-Catch nám obvykle slouží právě pro tento účel. Do bloku Try dáme kód, který potencionálně může nějakou výjimku vyhodit, a v bloku Catch potencionálně vyhozenou výjimku ošetříme. Catch bloků pro jeden Try může být více, nicméně pouze jeden z nich může být spuštěn v případě vyhození výjimky.             
 Takhle by mohl vypadat program v Pythonu, který vyhodí ZeroDivisionError:

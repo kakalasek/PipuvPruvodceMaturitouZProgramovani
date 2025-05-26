@@ -156,6 +156,36 @@ public class Main {
 }
 ```
 
+V Pythonu je načítání dat banální. Prostě místo "w" dáme "r".           
+V Javě je to podobné, nicméně ne stejné. Využijeme jiný stream. Může to vypadat třeba takhle:
+
+```Java
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+         try {
+            BufferedReader bf = new BufferedReader(new FileReader("file.txt"));
+
+            String line;
+
+            while((line = bf.readLine()) != null){
+               System.out.println(line);
+            }
+         } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         } 
+    } 
+}
+```
+
 Nuže, podíváme se nejdříve na jednolivé formáty souborů. Nebo alespoň na ty typické.           
 
 ![CSV](csv.PNG)
