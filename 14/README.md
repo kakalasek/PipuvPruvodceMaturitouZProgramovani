@@ -118,7 +118,145 @@ Zajímavým protikladem je např. Java. Ta je už od začátku navržena čistě
 Kód rovný tomu výše lze zapsat v Javě třeba takto:          
 
 ```Java
+public class Main {
+    public static void main(String[] args) {
+      Pig pig1 = new Pig("Peppa", 37, 70, false);
+      Pig pig2 = new Pig("Tom", 60, 85, true);
 
+      System.out.println(pig1);
+      System.out.println(pig2);
+    } 
+}
+
+public class Pig {
+
+    // Deklarace vlastnosti trid
+    private String name;
+    private int weight;
+    private int height;
+    private boolean well_fed;
+
+    public Pig(String name, int weight, int height, boolean well_fed){  // Konstruktor
+        // Inicializace vlastnosti trid. *this* referuje na danou instanci tridy
+        this.name = name;
+        this.weight = weight;
+        this.height = height;
+        this.well_fed = well_fed;
+    }
+
+    // Metody pro zapouzdreni. Vlastnosti jsou private, nelze na ne sahnou zvenci. Proto vytvorime metody pro manipulaci s nimi
+    public int getHeight() {
+        return height;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public boolean Is_well_fed() {
+        return well_fed;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public void setWell_fed(boolean well_fed) {
+        this.well_fed = well_fed;
+    }
+
+    @Override
+    public String toString() {
+        return "Hello I am " + this.name;
+    }
+}
+```
+
+v C++ je to velmi podobné, jako v Javě. Nicméně narozdíl od Javy, C++ není tak striktně objektové.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Pig{
+    // Deklarace vlastnosti
+    private:
+        string name;
+        int weight;
+        int height;
+        bool well_fed;
+
+    public:
+        Pig(string name, int weight, int height, bool well_fed){
+            // Inicializace vlastnosti. *this* je pointer na aktualni instanci tridy
+            this->name = name;
+            this-> weight = weight;
+            this->height = height;
+            this->well_fed = well_fed;
+        }
+        
+        string getName() const{
+            return name;
+        }
+
+        int getWeight(){
+            return weight;
+        }
+
+        int getHeight(){
+            return height;
+        }
+
+        int isWellFed(){
+            return well_fed;
+        }
+
+        void setName(string name){
+            this->name = name;
+        }
+       
+        void setWeight(int weight){
+            this->weight = weight;
+        }
+
+        void setHeight(int height){
+            this->height = height;
+        }
+
+        void setWellFed(bool well_fed){
+            this->well_fed = well_fed;
+        }
+
+};
+
+ostream& operator<<(ostream& os, const Pig& pig){
+    os << "Hello I am " << pig.getName();
+    return os;
+}
+
+int main(){
+    
+    Pig *pig1 = new Pig("Peppa", 37, 70, false);    
+    Pig *pig2 = new Pig("Tom", 60, 85, true);  
+    
+    cout << *pig1 << endl;
+    cout << *pig2 << endl;
+
+    return 0;
+}
 ```
 
 ![Aggregation and Composition](aggregation_vs_composition.png)
