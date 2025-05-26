@@ -44,19 +44,117 @@ Obdobný proces lze udělat i v Javě. V Javě je nutné, aby třída implemento
 Nejdříve uložíme:
 
 ```Java
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
+public class Main {
+    public static void main(String[] args) {
+         try {
+            MObject mObject = new MObject("Tvoje mama", 69);
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("myobject"));
+            out.writeObject(mObject);
+            out.close();
+         } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+    } 
+}
+
+import java.io.Serializable;
+
+public class MObject implements Serializable{
+
+    public static int bigNumber = 5;
+    private String message;
+    private int number;
+    
+    public MObject(String message, int number){
+        this.message = message;
+        this.number = number;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    @Override
+    public String toString() {
+        return message + ": " + number;
+    }
+}
 ```
 
 Pak načteme:
 
 ```Java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
+public class Main {
+    public static void main(String[] args) {
+         try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("myobject"));
+            MObject m = (MObject) in.readObject();
+            System.out.println(m);
+
+         } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    } 
+}
 ```
 
-Nějaké důležité poznámky s serializaci. Statické proměnné nelze serializovat, náleží třídě ne instanci.
+Nějaké důležité poznámky s serializaci. Statické proměnné nelze serializovat, náleží třídě ne instanci. V Javě můžeme udělat proměnnou *transient*. To znamená, že nebude serializována.
 
 Podíváme se teď, jak lze zapisovat do textových souborů.                
+V Pythonu je to jednoduché. Stačí nadefinovat, že chceme do souboru zapisovat a můžeme zapisovat. Neexistuje-li soubor, Python ho automaticky vytvoří. Přepínač "w" znamená *write*. Takže vždy soubor přepíše. Chceme-li do souboru přidat text, můžeme využít přepínač "a".           
 
+```Python
+with open('file.txt', 'wt') as file:
+    file.write("Ahoooj")
+```
+
+V Javě je to trošku rafinovanější. Java využívá tzv. streams. Do textového souboru chceme zapisovat zpravidla po řádcích. To dovede např. BufferedStreamWriter nebo FileWriter (jsou stejné v podstatě). Příklad ukáže názorně:
+
+```Java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("file.txt"));
+            //PrintWriter writer = new PrintWriter("file.txt");        Taky moznost
+            writer.write("Ahooj");
+            writer.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    } 
+}
+```
 
 Nuže, podíváme se nejdříve na jednolivé formáty souborů. Nebo alespoň na ty typické.           
 
@@ -80,9 +178,6 @@ Nevýhodou je, že kvůli nutnosti otevíracího a uzavíracího tagu u každéh
 
 Posledním, tentokrát velmi elegantním, formátem souboru, je YAML (YAML Aint Markup Language). Narozdíl od všech předchozích formátu aktivně využívá whitespaci, tedy neviditelné znaky, mezera, newline, ...                
 Využívá ho např. Ansible nebo Docker-compose. V rámci serializace jsem s ním nikdy nepracoval, opět pouze jako konfigurační soubor nějaké externí aplikace.
-
-Do souboru se zpravidla zapisuje pomocí tzv. streamů. Streamem, který určitě znáte např. v Javě, je System.out a System.in. Jeden dovede načítat data z konzole, druhý je dovede vypsat. Takový stream ale můžeme vytvořit v podstatě libovolný. Můžeme do něj psát data, která se budou posílat na síť, nebo psát a číst data do a ze souboru.             
-Soubory lze číst a zapisovat charakter po charakteru, byte po bytu, řádek po řádku. Zkrátka, jak se nám to hodí. Programovací jazyk nám k tomu dá patřičné nástroje.
 
 Materiály
 ---
