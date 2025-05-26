@@ -261,113 +261,21 @@ int main(){
 
 ![Aggregation and Composition](aggregation_vs_composition.png)
 
-Je zde zmíněná i agregace a kompozice objektů. To je spíše takový fancy název. V podstatě, nahoře na obrázku je to pěkně vysvětlené, pokud třída A je naprosto závislá na třídě B a nemůže bez ní existovat, jedná se o kompozici.              
-V případě, že třída A může existovat sama o sobě, jde o agregaci.           
-Využívá se toho např. kdybychom chtěli dát zvířátka do naší farmy. Měli bychom nějaký list zvířátek, do kterého bychom je ukládali. To by byla agregace, protože zvířátko může existovat samo o sobě.                   
-Takže v podstatě uložíme objekt do objektu. K uloženému objektu pak přistupujeme jen a pouze přes objekt, ve kterém je uložen.
-
-
-Určitě stojí za to zmínit jednu speciální metodu, kterou zpravidla každá třída mívá, konstruktor. Tato metoda je zodpovědná za inicializaci objektu. Tedy za inicializaci jejich proměnný, popř. načtení jejich hodnot ze souboru.          
-Konstruktor může být i prázdný, nemá-li smysl pro třídu nic inicializovat
-
-Ukázky kódu
----
-
-**Python - OOP**
-```Python
-class Square():
-
-    # Konstruktor
-    def __init__(self, a):
-        self._a = a
-
-    def set_a(self, a):
-        self._a = a
-
-    def get_a(self):
-        return self._a
-    
-    def get_area(self):
-        return self._a**2
-    
-
-if __name__ == "__main__":
-    s1 = Square(5)
-    
-    print(s1.get_a())
-    print(s1.get_area())
-```
-
-**Java - OOP**
+Existují také koncepty tzv. agregace a kompozice.           
+Kompozice je, když je nějaký objekt součástí jiného. Třeba objekt motor v objektu auto. Nebo objekt údaje v objektu faktura. Využívá se hojně, když se pro daný problém nehodí dědičnost. Auto je třeba docela dobrý příklad. Motor můžeme nastartovat a vypnout. To samé můžeme udělat i s autem. Proč neoddědit auto od motoru? Tak v první řadě, co kdybychom měli těch motorů více a každý se choval jinak. Museli bychom pro každý takový motor napsat auto. To není zrovna účinné. Použijeme-li kompozici a vložíme motor jako atribut (vlastnost) třídy, můžeme jeho metody volat v metodách pro start a stop, které se nachází v autě. Navíc nám stačí jen jedna třída pro auto. Pokaždé jen změníme instanci motoru. A je to.                  
+Důležité je, že v případě kompozice je objekt, který je jako atribut třídy, plně závislý na dané třídě. Tedy když smažeme instanci této třídy, smažeme i instanci třídy v kompozici.        
+Takhle může vypadat kompozice v Javě:
 
 ```Java
-class Main{
 
-    static class Square{
-        private int a;
-
-        public Square(int a){
-            this.a = a;
-        }
-
-        public int getA(){
-            return this.a;
-        }
-
-        public void setA(int a){
-            this.a = a;
-        }
-
-        public int getArea(){
-            return a*a;
-        }
-    }
-
-    public static void main(String args[]){
-        Square s1 = new Square(10);
-        System.out.println(s1.getA());
-        System.out.println(s1.getArea());
-    }
-}
 ```
 
-**C++ - OOP**
+Na druhé straně stojí agregace. Ta má jeden hlavní rozdíl. U agregace je agregovaný objekt naprosto nezávislý, nezaniká s objektem, který ho agreguje.                  
+Příkladem může být knihovna, která má nějaké knihy a dovoluje provádět nějaké zajímavé operace na této množině knih. Nicméně po jejím zániku knihy v programu stále existuje, tj. nejsou závisle na instanci knihovny. Dalším příkladem může být třeba student a nějaký seznam studentů.                
+Agregace v Javě může vypadat třeba takhle:
 
-```C++
-#include <iostream>
+```Java
 
-using namespace std;
-
-class Square{
-    private:
-        int a;
-
-    public:
-        Square(int a){
-            this->a = a;
-        }
-
-        int getA(){
-            return this->a;
-        }
-
-        void setA(){
-            this->a = a;
-        }
-
-        int getArea(){
-            return this->a*this->a;
-        }
-};
-
-int main(){
-    Square s1 = Square(5);
-
-    cout << s1.getA() << endl;
-    cout << s1.getArea() << endl;
-
-    return 0;
-}
 ```
 
 Materiály
