@@ -80,7 +80,55 @@ Prakticky se můžeme podívat třeba na dekorátor. Dekorátor nám dovoluje k 
 Takto by takový dekorátor mohl vypadat v Javě:
 
 ```Java
+public class Main {
+   public static void main(String[] args) { 
+    CapitalLettersChecker capitalLettersChecker = new CapitalLettersChecker(new BasicChecker());
+    capitalLettersChecker.check("Hello there");
+    capitalLettersChecker.check("general kenobi");
+   } 
+}
 
+public interface SyntaxChecker {
+    public void check(String s);
+}
+
+public class SyntaxDecorator implements SyntaxChecker{
+
+    protected SyntaxChecker syntaxChecker;
+
+    public SyntaxDecorator(SyntaxChecker syntaxChecker){
+        this.syntaxChecker = syntaxChecker;
+    }
+
+    @Override
+    public void check(String s) {
+        this.syntaxChecker.check(s);
+    }
+    
+}
+
+public class BasicChecker implements SyntaxChecker{
+
+    @Override
+    public void check(String s) {
+        System.out.println("Everything is fine");
+    }
+    
+}
+
+public class CapitalLettersChecker extends SyntaxDecorator {
+
+    public CapitalLettersChecker(SyntaxChecker syntaxChecker) {
+        super(syntaxChecker);
+    }
+   
+    @Override
+    public void check(String s) {
+        if(s.matches(".*[A-Z]+.*")){
+            super.check(s);
+        }
+    }
+}
 ```
 
 **Behavioral patters** jsou patterny, které už se zabývají nějakým konkrétním chováním objektů, algoritmy. Třeba strategy pattern se zabývá implementací správného postupu, strategie, k problému, kde lze vybírat z několika postupů.                  
