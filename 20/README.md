@@ -93,16 +93,45 @@ Dalším důležitým pojmem ve světě trénování je tzv. coverage. Test cove
 Náš kód by měl být patřičně zdokumentovaný. Ideálně s nějakým návrhem architektury, např. pomocí UML diagramu. Máme-li v našem kódu databázi, měli bychom poskytnout její diagram.              
 Mluvíme-li o dokumentaci samotného kódu, určitě je žádoucí využívat tzv. programátorskou dokumentaci. Tu lze vytvořit třeba u metod a tříd. Popisuje funkci metody či třídy, v případě metody její vstupní a výstupní parametry a výjimky, které mohou při spuštění metody nastat (ty bychom samozřejmě měli patřičně ošetřovat).               
 Komentáře v kódu jsou přípustné jen v případě, kdy za sebe kód opravdu nemůže mluvit a není jiná možnost než popis pomocí komentáře.            
-Programátorskou dokumentaci v Pythonu lze udělat kupříkladu takto:
+Programátorskou dokumentaci v Pythonu lze udělat pomocí víceřádkového stringu hned pod metodou. Pokud dodržíme i nějaké konvence, String může vypadat i dost pěkně:
 
 ```Python
+def sum(a: int , b: int ):
+    """
+    This method sums up two numbers.
 
+    Parameters:
+        a (int): The first number
+        b (int): The second number
+
+    Returns:
+        int: The sum of a and b
+    """
+
+    return a + b
+
+if __name__ == "__main__":
+    print(sum(5,10))
 ```
 
-Java to má trochu elegantnější. Lze ji vytvořit třeba takto:
+Java to má trochu elegantnější. Dovede nám třeba vytvořit automaticky základní konstru dokumentace. Lze ji vytvořit třeba takto:
 
 ```Java
+public class Main {
 
+    /**
+     * This method sums up thwo numbers
+     * @param a The first value to be summed
+     * @param b The second value to be summed
+     * @return The sum of the two numbers
+     */
+    public static int sum(int a, int b){
+        return a + b;
+    }
+    public static void main(String[] args) {
+        System.out.println(sum(10, 5)); 
+    } 
+}
 ```
 
 Materiály
