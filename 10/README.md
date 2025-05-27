@@ -170,9 +170,19 @@ A v Pythonu takto:
 
 ![Table Data Gateway](table_data_gateway.gif)
 
-Další možnost je trochu rafinovanější. Já ji zde budu pojmenovávat jako Table Data Gateway, nicméně z toho, co jsem pochopil, je velmi podobná, někdy v postatě to samé, jako DAO (Database Access Object). Někdě jsem našel, že rozdíl je v tom, že DAO má představovat záznam a Table Data Gateway tabulku. V realitě je to úplně jedno, takže se tím nemusíte zabývat a koukejte na to úplně stejně. I pan ředitel na Moodlu mezi tím zvlášť nerozlišuje.            
-Dobře, v čem je tento přístup rafinovanější? Metody, které přistupují k databázi, úplně oddělíme od implementace našeho záznamu. Table Data Gateway tedy představuje v tabulku v tom, že metody, které implementuje, nejsou specifické pro žádný objekt, ale pracují nad objekty v dané tabulce. Kdykoliv chceme z našeho kódu k této tabulce přistupovat, potřebujeme právě Gateway daného objektu.            
-Vyplatí se to také proto, že SQL logika je úplně oddělená od logiky objektu. Tedy vývojář, který si není jistý svými skilly v SQL, nemusí vůbec s SQL interagovat. Pouze spouští metody nabízené daným Gatewayem.               
+Další možnost je trochu rafinovanější. Pojmenujeme ji Table Data Gateway. Je to objekt, který zprostředkovává vždy přístup k jedné tabulce. Dovede nám načítat záznamy, ukládat nové, ... Vrací nám zpravidla nějaký result set, s tím si pak můžeme hrát, jak uznáme za vhodné. Velká výhoda tohoto přístupu je, že vývojář je odstíněn od implementace v SQL. Pouze volá metody Gateway.                  
+Druhý, velmi podobný přístup je DAO (Database Access Object). Má v podstatě jen jeden rozdíl. Nutně nezprostředkovává interface k jedné tabulce, ale poskytuje metody pro práci s nějakým objektem. To znamená, že implementujeme tabulku v databázi jako třídu, sloupce jako vlastnosti třídy. Všechny operace (insert, update, delete, něco navíc) deleguje na naše DAO. DAO nám tedy nevrací nějaký resultset, ale konkrétní objekt, list objektů. Nebo na takovém objektu provádí nějaké operace.               
+Konkrétní příklad DAO v Javě může vypadat třeba takto:
+
+```Java
+
+```
+
+A v Pytonu takto:
+
+```Python
+
+```
 
 ![Data Mapper](data_mapper.gif)
 
