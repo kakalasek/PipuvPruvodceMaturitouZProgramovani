@@ -10,7 +10,53 @@ Podíváme se, jak komunikovat s databázovým serverem pomocí naší aplikace.
 V kódu pak můžeme vytvořit objekt, který bude představovat připojení do databáze. Samozřejmě pod podmínkou, že jsme se připojili úspěšně. Tento objekt nám poskytuje různé metody, pomocí kterých můžeme s databází komunikovat. Připojení k databázi bychom měli vždy uzavřít.             
 Existuje několik způsobů jak vytvořit třídu, která může naše připojení hezky obalovat. Jedním z nich je návrhový vzor Singleton. Máme třeba aplikaci, ve které chceme vždy mít právě jedno připojení do databáze. To je docela běžná situace. Nedovolíme tedy vytvořit více připojení.          
 Když budu čerpat z Moodlu, ten zmiňuje ještě třeba línou inicializaci. To znamená, že naše aplikace se k databázi připojí opravdu až ve chvíli, kdy jsme na ni provedli nějaký dotaz.               
-Dále se může hodit jakási factory metoda, která nám může vyřešit některé případné výjimky nebo třeba místo vyhození výjimky vrátit None v případě nějaké chyby.         
+Dále se může hodit jakási factory metoda, která nám může vyřešit některé případné výjimky nebo třeba místo vyhození výjimky vrátit None v případě nějaké chyby.                     
+Ukážeme si praktický příklad singleton připojení v Javě. Takhle může vypadat třída pro připojení do databáze, která implementuje Singleton pattern a určitou formu líné inicializace (Connection je vytvořen a inicializován až v případě, že uživatel potřebuje Connection):
+
+```Java
+package database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DatabaseConnection {
+    
+    private static DatabaseConnection instance = null;
+    private Connection connection;
+
+    private String url;
+    private String username;
+    private String password;
+
+    private DatabaseConnection(String url, String username, String password){
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
+
+    public static DatabaseConnection connect(String url, String username, String password){
+        if(instance == null){
+            instance = new DatabaseConnection(url, username, password);
+        }
+        return instance;
+    }
+
+
+    public Connection getConnection() throws SQLException{
+        if (connection == null || connection.isClosed()){
+            connection = DriverManager.getConnection(url, username, password);
+        }
+        return connection;
+    }
+
+    public void closeConnection() throws SQLException{
+        if(connection != null){
+            connection.close();
+        }
+    }
+}
+```
 
 Než se vrhneme na mapování objektů, řekneme si něco málo k ukládání a načítání věcí do databáze a z databáze.           
 Vkládáme-li nějaká data do databáze, je naprosto nezbytné, abychom je ošetřili. Proč? Nu, protože uživatel umí být pěkný zlořád a mohl zkusit např. velmi nepěkný SQL Injection.            
